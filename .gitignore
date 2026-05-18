@@ -1,0 +1,12 @@
+# Vivado 무시 파일 목록
+*.jou
+*.log
+*.pb
+*.wdb
+*.str
+.Xil/
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
