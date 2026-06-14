@@ -58,13 +58,13 @@ module bram_128b_32bit_sv (
   (* X_INTERFACE_IGNORE = "true" *)
   input wire [0:0] wea,
   (* X_INTERFACE_IGNORE = "true" *)
-  input wire [6:0] addra,
+  input wire [7:0] addra,
   (* X_INTERFACE_IGNORE = "true" *)
   input wire [31:0] dina,
   (* X_INTERFACE_IGNORE = "true" *)
   input wire clkb,
   (* X_INTERFACE_IGNORE = "true" *)
-  input wire [6:0] addrb,
+  input wire [7:0] addrb,
   (* X_INTERFACE_IGNORE = "true" *)
   output wire [31:0] doutb
 );

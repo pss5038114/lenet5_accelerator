@@ -19,7 +19,7 @@ module tb_lenet5_top();
     reg [7:0] dma_w_din_4, dma_w_din_5, dma_w_din_6, dma_w_din_7;
 
     reg [7:0] dma_b_we;
-    reg [6:0] dma_b_addr_w;
+    reg [7:0] dma_b_addr_w;
     reg [31:0] dma_b_din_0, dma_b_din_1, dma_b_din_2, dma_b_din_3;
     reg [31:0] dma_b_din_4, dma_b_din_5, dma_b_din_6, dma_b_din_7;
 
