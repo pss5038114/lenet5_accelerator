@@ -220,8 +220,9 @@ module lenet5_top #(
     wire [BW_P-1:0] pe_top_in_0, pe_top_in_1, pe_top_in_2, pe_top_in_3, pe_top_in_4, pe_top_in_5, pe_top_in_6, pe_top_in_7;
     wire [BW_P-1:0] out_bram_dout_0, out_bram_dout_1, out_bram_dout_2, out_bram_dout_3, out_bram_dout_4, out_bram_dout_5, out_bram_dout_6, out_bram_dout_7;
     
+    // 💡 수정됨: pe_array의 출력은 8개의 독립된 데이터와 Valid를 가짐
     wire [BW_P-1:0] pe_out_0, pe_out_1, pe_out_2, pe_out_3, pe_out_4, pe_out_5, pe_out_6, pe_out_7;
-    wire pe_valid_out;
+    wire pe_valid_0, pe_valid_1, pe_valid_2, pe_valid_3, pe_valid_4, pe_valid_5, pe_valid_6, pe_valid_7;
 
     input_buffer u_input_buf (
         .clk(clk), .reset_n(reset_n),
@@ -239,31 +240,53 @@ module lenet5_top #(
         .top_in_0(pe_top_in_0), .top_in_1(pe_top_in_1), .top_in_2(pe_top_in_2), .top_in_3(pe_top_in_3), .top_in_4(pe_top_in_4), .top_in_5(pe_top_in_5), .top_in_6(pe_top_in_6), .top_in_7(pe_top_in_7)
     );
 
-    pe_array u_pe_array (
+    // 💡 수정됨: 승현 님의 pe_array.v 실제 포트 이름에 완벽하게 맞춤
+    pe_array #(
+        .BW_W(BW_W), .BW_A(BW_A), .BW_P(BW_P), .NUM_ROW(5), .NUM_COL(8)
+    ) u_pe_array (
         .clk(clk), .reset_n(reset_n),
+        .opcode(opcode),
+        .col_en(8'hFF), .row_en(5'h1F), // 모두 켜기
+        .iact_in_master(buf_iact_out),  
+        .master_valid_in(buf_master_valid),
         .top_in_0(pe_top_in_0), .top_in_1(pe_top_in_1), .top_in_2(pe_top_in_2), .top_in_3(pe_top_in_3), .top_in_4(pe_top_in_4), .top_in_5(pe_top_in_5), .top_in_6(pe_top_in_6), .top_in_7(pe_top_in_7),
-        .left_in_0(buf_iact_out), .left_in_1(8'd0), .left_in_2(8'd0), .left_in_3(8'd0), .left_in_4(8'd0), // 5단 구조 입력 피딩
-        .valid_in(buf_master_valid),
-        .out_0(pe_out_0), .out_1(pe_out_1), .out_2(pe_out_2), .out_3(pe_out_3), .out_4(pe_out_4), .out_5(pe_out_5), .out_6(pe_out_6), .out_7(pe_out_7),
-        .valid_out(pe_valid_out)
+        .bottom_out_0(pe_out_0), .bottom_out_1(pe_out_1), .bottom_out_2(pe_out_2), .bottom_out_3(pe_out_3), .bottom_out_4(pe_out_4), .bottom_out_5(pe_out_5), .bottom_out_6(pe_out_6), .bottom_out_7(pe_out_7),
+        .valid_out_0(pe_valid_0), .valid_out_1(pe_valid_1), .valid_out_2(pe_valid_2), .valid_out_3(pe_valid_3), .valid_out_4(pe_valid_4), .valid_out_5(pe_valid_5), .valid_out_6(pe_valid_6), .valid_out_7(pe_valid_7)
     );
 
-    // 미완성 PSum 피드백 및 저장을 위한 Output BRAM 제어선 설정
-    wire [9:0] out_bram_addr = {7'd0, stage_idx}; // 간단한 스테이지 인덱스 기반 포인팅 처리
+    // PSum Feedback 버퍼용 주소 (간단화)
+    wire [9:0] out_bram_addr = {7'd0, stage_idx}; 
     output_bram_wrapper u_out_bram (
-        .clk(clk), .we_arr({8{pe_valid_out}}), .addr_w(out_bram_addr),
+        .clk(clk), .we_arr({8{pe_valid_0}}), .addr_w(out_bram_addr),
         .din_0(pe_out_0), .din_1(pe_out_1), .din_2(pe_out_2), .din_3(pe_out_3), .din_4(pe_out_4), .din_5(pe_out_5), .din_6(pe_out_6), .din_7(pe_out_7),
         .addr_r(out_bram_addr),
         .dout_0(out_bram_dout_0), .dout_1(out_bram_dout_1), .dout_2(out_bram_dout_2), .dout_3(out_bram_dout_3), .dout_4(out_bram_dout_4), .dout_5(out_bram_dout_5), .dout_6(out_bram_dout_6), .dout_7(out_bram_dout_7)
     );
 
-    // 최종 컨볼루션 연산 완료 시(Stage 4) 8비트 양자화 및 풀링 연쇄 유닛 조립
-    pe_post_process_col u_post_process (
-        .clk(clk), .reset_n(reset_n),
-        .fm_width(fm_width), .valid_in(pe_valid_out),
-        .pe_out_0(pe_out_0), .pe_out_1(pe_out_1), .pe_out_2(pe_out_2), .pe_out_3(pe_out_3), .pe_out_4(pe_out_4), .pe_out_5(pe_out_5), .pe_out_6(pe_out_6), .pe_out_7(pe_out_7),
-        .conv_we(conv_we), .addr_w(conv_addr_w),
-        .conv_din_0(conv_din_0), .conv_din_1(conv_din_1), .conv_din_2(conv_din_2), .conv_din_3(conv_din_3), .conv_din_4(conv_din_4), .conv_din_5(conv_din_5), .conv_din_6(conv_din_6), .conv_din_7(conv_din_7)
-    );
+    // =========================================================
+    // 💡 수정됨: 컬럼별(pe_post_process_col) 8개 인스턴스화
+    // =========================================================
+    wire [7:0] pool_valid_arr;
+    
+    pe_post_process_col u_pp_0 (.clk(clk), .reset_n(reset_n), .fm_width(fm_width), .psum_in(pe_out_0), .valid_in(pe_valid_0), .pool_out(conv_din_0), .valid_out(pool_valid_arr[0]));
+    pe_post_process_col u_pp_1 (.clk(clk), .reset_n(reset_n), .fm_width(fm_width), .psum_in(pe_out_1), .valid_in(pe_valid_1), .pool_out(conv_din_1), .valid_out(pool_valid_arr[1]));
+    pe_post_process_col u_pp_2 (.clk(clk), .reset_n(reset_n), .fm_width(fm_width), .psum_in(pe_out_2), .valid_in(pe_valid_2), .pool_out(conv_din_2), .valid_out(pool_valid_arr[2]));
+    pe_post_process_col u_pp_3 (.clk(clk), .reset_n(reset_n), .fm_width(fm_width), .psum_in(pe_out_3), .valid_in(pe_valid_3), .pool_out(conv_din_3), .valid_out(pool_valid_arr[3]));
+    pe_post_process_col u_pp_4 (.clk(clk), .reset_n(reset_n), .fm_width(fm_width), .psum_in(pe_out_4), .valid_in(pe_valid_4), .pool_out(conv_din_4), .valid_out(pool_valid_arr[4]));
+    pe_post_process_col u_pp_5 (.clk(clk), .reset_n(reset_n), .fm_width(fm_width), .psum_in(pe_out_5), .valid_in(pe_valid_5), .pool_out(conv_din_5), .valid_out(pool_valid_arr[5]));
+    pe_post_process_col u_pp_6 (.clk(clk), .reset_n(reset_n), .fm_width(fm_width), .psum_in(pe_out_6), .valid_in(pe_valid_6), .pool_out(conv_din_6), .valid_out(pool_valid_arr[6]));
+    pe_post_process_col u_pp_7 (.clk(clk), .reset_n(reset_n), .fm_width(fm_width), .psum_in(pe_out_7), .valid_in(pe_valid_7), .pool_out(conv_din_7), .valid_out(pool_valid_arr[7]));
+
+    // 💡 수정됨: 저장 주소 생성기 추가
+    reg [11:0] conv_addr_w_reg;
+    always @(posedge clk or negedge reset_n) begin
+        if (!reset_n) conv_addr_w_reg <= 0;
+        else if (mode_select == 2'd1 && pool_valid_arr[0]) conv_addr_w_reg <= conv_addr_w_reg + 1; // Valid 뜰 때마다 1씩 증가
+        else if (mode_select != 2'd1) conv_addr_w_reg <= 0;
+    end
+    
+    // Top 모듈에서 선언되었던 쓰기 신호 연결
+    assign conv_addr_w = conv_addr_w_reg;
+    assign conv_we = {8{pool_valid_arr[0]}}; 
 
 endmodule
