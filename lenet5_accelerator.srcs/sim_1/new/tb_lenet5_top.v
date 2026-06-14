@@ -23,9 +23,10 @@ module tb_lenet5_top();
     reg [31:0] dma_b_din_0, dma_b_din_1, dma_b_din_2, dma_b_din_3;
     reg [31:0] dma_b_din_4, dma_b_din_5, dma_b_din_6, dma_b_din_7;
 
-    reg [7:0] mem_image [0:1023];
-    reg [7:0] mem_weight [0:61471]; 
-    reg [31:0] mem_bias [0:239];    
+    // 💡 [수정 후] 8배 뻥튀기된 배열 사이즈 반영!
+    reg [7:0] mem_image [0:8191];     // 1024 * 8
+    reg [7:0] mem_weight [0:61559];   // 7695 * 8
+    reg [31:0] mem_bias [0:1735];     // 217 * 8  
 
     lenet5_top uut (
         .clk(clk), .reset_n(reset_n),
@@ -68,8 +69,9 @@ module tb_lenet5_top();
         dma_done = 0; ps_read_done = 0;
         dma_img_we = 0; dma_w_we = 0; dma_b_we = 0;
         
-        for (i=0; i<61472; i=i+1) mem_weight[i] = 8'd0;
-        for (i=0; i<240; i=i+1) mem_bias[i] = 32'd0;
+        // 초기화 루프 업데이트
+        for (i=0; i<61560; i=i+1) mem_weight[i] = 8'd0;
+        for (i=0; i<1736; i=i+1) mem_bias[i] = 32'd0;
 
         $readmemh("image.txt", mem_image);
         $readmemh("weight.txt", mem_weight);
@@ -78,8 +80,9 @@ module tb_lenet5_top();
         #100 reset_n = 1; #50;
         
         $display("============================================");
+        // DMA 로딩 루프 업데이트
         $display("[%0t] [DMA] Loading Input Image...", $time);
-        for (i = 0; i < 1024; i = i + 8) begin
+        for (i = 0; i < 8192; i = i + 8) begin // 1024 -> 8192
             @(negedge clk);
             dma_img_we = 8'hFF; dma_img_addr_w = i / 8;
             dma_img_din_0 = mem_image[i];   dma_img_din_1 = mem_image[i+1];
@@ -90,7 +93,7 @@ module tb_lenet5_top();
         @(negedge clk) dma_img_we = 0;
         
         $display("[%0t] [DMA] Loading Network Weights...", $time);
-        for (i = 0; i < 61472; i = i + 8) begin
+        for (i = 0; i < 61560; i = i + 8) begin // 61472 -> 61560
             @(negedge clk);
             dma_w_we = 8'hFF; dma_w_addr_w = i / 8;
             dma_w_din_0 = mem_weight[i];   dma_w_din_1 = mem_weight[i+1];
@@ -101,7 +104,7 @@ module tb_lenet5_top();
         @(negedge clk) dma_w_we = 0;
 
         $display("[%0t] [DMA] Loading Network Biases...", $time);
-        for (i = 0; i < 240; i = i + 8) begin
+        for (i = 0; i < 1736; i = i + 8) begin // 240 -> 1736
             @(negedge clk);
             dma_b_we = 8'hFF; dma_b_addr_w = i / 8;
             dma_b_din_0 = mem_bias[i];   dma_b_din_1 = mem_bias[i+1];
