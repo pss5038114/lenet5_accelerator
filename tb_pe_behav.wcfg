@@ -3,65 +3,211 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="tb_lenet5_ctrl_skeleton_behav.wdb" id="1">
+      <db_ref path="tb_lenet5_ctrl_behav.wdb" id="1">
          <top_modules>
             <top_module name="glbl" />
-            <top_module name="tb_lenet5_ctrl_skeleton" />
+            <top_module name="tb_lenet5_ctrl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="485.001 ns"></ZoomEndTime>
-      <Cursor1Time time="33.981 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="126.215001 us"></ZoomEndTime>
+      <Cursor1Time time="26.593596 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="186"></NameColumnWidth>
-      <ValueColumnWidth column_width="60"></ValueColumnWidth>
+      <NameColumnWidth column_width="180"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="10" />
-   <wvobject fp_name="/tb_lenet5_ctrl_skeleton/clk" type="logic">
+   <WVObjectSize size="41" />
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_lenet5_ctrl_skeleton/reset_n" type="logic">
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/reset_n" type="logic">
       <obj_property name="ElementShortName">reset_n</obj_property>
       <obj_property name="ObjectShortName">reset_n</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_lenet5_ctrl_skeleton/dma_done" type="logic">
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/dma_done" type="logic">
       <obj_property name="ElementShortName">dma_done</obj_property>
       <obj_property name="ObjectShortName">dma_done</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_lenet5_ctrl_skeleton/layer_done" type="logic">
-      <obj_property name="ElementShortName">layer_done</obj_property>
-      <obj_property name="ObjectShortName">layer_done</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_lenet5_ctrl_skeleton/ps_read_done" type="logic">
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/ps_read_done" type="logic">
       <obj_property name="ElementShortName">ps_read_done</obj_property>
       <obj_property name="ObjectShortName">ps_read_done</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_lenet5_ctrl_skeleton/ping_pong_state" type="logic">
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/ping_pong_state" type="logic">
       <obj_property name="ElementShortName">ping_pong_state</obj_property>
       <obj_property name="ObjectShortName">ping_pong_state</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_lenet5_ctrl_skeleton/mode_select" type="array">
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/mode_select" type="array">
       <obj_property name="ElementShortName">mode_select[1:0]</obj_property>
       <obj_property name="ObjectShortName">mode_select[1:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_lenet5_ctrl_skeleton/input_width" type="array">
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/input_width" type="array">
       <obj_property name="ElementShortName">input_width[7:0]</obj_property>
       <obj_property name="ObjectShortName">input_width[7:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_lenet5_ctrl_skeleton/fm_width" type="array">
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/fm_width" type="array">
       <obj_property name="ElementShortName">fm_width[7:0]</obj_property>
       <obj_property name="ObjectShortName">fm_width[7:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_lenet5_ctrl_skeleton/current_state" type="array">
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/shift_en" type="logic">
+      <obj_property name="ElementShortName">shift_en</obj_property>
+      <obj_property name="ObjectShortName">shift_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/opcode" type="array">
+      <obj_property name="ElementShortName">opcode[1:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[1:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/use_bias" type="logic">
+      <obj_property name="ElementShortName">use_bias</obj_property>
+      <obj_property name="ObjectShortName">use_bias</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/start" type="logic">
+      <obj_property name="ElementShortName">start</obj_property>
+      <obj_property name="ObjectShortName">start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/stage_idx" type="array">
+      <obj_property name="ElementShortName">stage_idx[2:0]</obj_property>
+      <obj_property name="ObjectShortName">stage_idx[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/start_node" type="logic">
+      <obj_property name="ElementShortName">start_node</obj_property>
+      <obj_property name="ObjectShortName">start_node</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/valid_in" type="logic">
+      <obj_property name="ElementShortName">valid_in</obj_property>
+      <obj_property name="ObjectShortName">valid_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/end_node" type="logic">
+      <obj_property name="ElementShortName">end_node</obj_property>
+      <obj_property name="ObjectShortName">end_node</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/current_state" type="array">
       <obj_property name="ElementShortName">current_state[2:0]</obj_property>
       <obj_property name="ObjectShortName">current_state[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/next_state" type="array">
+      <obj_property name="ElementShortName">next_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">next_state[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/conv_layer_done" type="logic">
+      <obj_property name="ElementShortName">conv_layer_done</obj_property>
+      <obj_property name="ObjectShortName">conv_layer_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/fc_layer_done" type="logic">
+      <obj_property name="ElementShortName">fc_layer_done</obj_property>
+      <obj_property name="ObjectShortName">fc_layer_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/is_conv" type="logic">
+      <obj_property name="ElementShortName">is_conv</obj_property>
+      <obj_property name="ObjectShortName">is_conv</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/is_fc" type="logic">
+      <obj_property name="ElementShortName">is_fc</obj_property>
+      <obj_property name="ObjectShortName">is_fc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/c_state" type="array">
+      <obj_property name="ElementShortName">c_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">c_state[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/load_cnt" type="array">
+      <obj_property name="ElementShortName">load_cnt[3:0]</obj_property>
+      <obj_property name="ObjectShortName">load_cnt[3:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/wait_cnt" type="array">
+      <obj_property name="ElementShortName">wait_cnt[15:0]</obj_property>
+      <obj_property name="ObjectShortName">wait_cnt[15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/stage_cnt" type="array">
+      <obj_property name="ElementShortName">stage_cnt[2:0]</obj_property>
+      <obj_property name="ObjectShortName">stage_cnt[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/batch_cnt" type="array">
+      <obj_property name="ElementShortName">batch_cnt[1:0]</obj_property>
+      <obj_property name="ObjectShortName">batch_cnt[1:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/target_wait" type="array">
+      <obj_property name="ElementShortName">target_wait[15:0]</obj_property>
+      <obj_property name="ObjectShortName">target_wait[15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/target_batch" type="array">
+      <obj_property name="ElementShortName">target_batch[1:0]</obj_property>
+      <obj_property name="ObjectShortName">target_batch[1:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/f_state" type="array">
+      <obj_property name="ElementShortName">f_state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">f_state[1:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/node_cnt" type="array">
+      <obj_property name="ElementShortName">node_cnt[7:0]</obj_property>
+      <obj_property name="ObjectShortName">node_cnt[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/acc_cnt" type="array">
+      <obj_property name="ElementShortName">acc_cnt[7:0]</obj_property>
+      <obj_property name="ObjectShortName">acc_cnt[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/target_nodes" type="array">
+      <obj_property name="ElementShortName">target_nodes[7:0]</obj_property>
+      <obj_property name="ObjectShortName">target_nodes[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/target_acc" type="array">
+      <obj_property name="ElementShortName">target_acc[7:0]</obj_property>
+      <obj_property name="ObjectShortName">target_acc[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/IDLE" type="array">
+      <obj_property name="ElementShortName">IDLE[2:0]</obj_property>
+      <obj_property name="ObjectShortName">IDLE[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/CONV1" type="array">
+      <obj_property name="ElementShortName">CONV1[2:0]</obj_property>
+      <obj_property name="ObjectShortName">CONV1[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/CONV2" type="array">
+      <obj_property name="ElementShortName">CONV2[2:0]</obj_property>
+      <obj_property name="ObjectShortName">CONV2[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/FC1" type="array">
+      <obj_property name="ElementShortName">FC1[2:0]</obj_property>
+      <obj_property name="ObjectShortName">FC1[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/FC2" type="array">
+      <obj_property name="ElementShortName">FC2[2:0]</obj_property>
+      <obj_property name="ObjectShortName">FC2[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/FC3" type="array">
+      <obj_property name="ElementShortName">FC3[2:0]</obj_property>
+      <obj_property name="ObjectShortName">FC3[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_ctrl/uut/FINISH" type="array">
+      <obj_property name="ElementShortName">FINISH[2:0]</obj_property>
+      <obj_property name="ObjectShortName">FINISH[2:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>
