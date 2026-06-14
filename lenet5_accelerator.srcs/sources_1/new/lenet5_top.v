@@ -49,6 +49,7 @@ module lenet5_top #(
     wire shift_en, use_bias, start;
     wire [2:0] stage_idx;
     wire start_node, valid_in, end_node;
+    wire next_batch; // 💡 여기에 wire 추가!
 
     // 두뇌 모듈 배치
     lenet5_ctrl u_ctrl (
@@ -59,6 +60,7 @@ module lenet5_top #(
         .shift_en(shift_en), .opcode(opcode), .use_bias(use_bias),
         .start(start), .stage_idx(stage_idx),
         .start_node(start_node), .valid_in(valid_in), .end_node(end_node),
+        .next_batch(next_batch), // 💡 여기에 포트 맵핑 추가!
         .current_state(current_state)
     );
 
@@ -163,7 +165,7 @@ module lenet5_top #(
     wire [BW_W-1:0] w_buf_0, w_buf_1, w_buf_2, w_buf_3, w_buf_4, w_buf_5, w_buf_6, w_buf_7;
     wire [BW_P-1:0] b_dout_0, b_dout_1, b_dout_2, b_dout_3, b_dout_4, b_dout_5, b_dout_6, b_dout_7;
 
-    // 가중치 및 바이어스 읽기 주소 스케줄러 (FSM 연동)
+    // 💡 [수정] 가중치 및 바이어스 읽기 주소 스케줄러 (FSM 연동)
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
             w_addr_r <= 0;
@@ -171,13 +173,14 @@ module lenet5_top #(
         end else begin
             if (mode_select == 2'd1) begin // CONV 모드
                 if (shift_en) w_addr_r <= w_addr_r + 1;
+                if (next_batch) b_addr_r <= b_addr_r + 1; // 💡 CONV 모드에서도 배치가 끝날 때 바이어스 주소 1 증가!
             end else if (mode_select == 2'd2) begin // FC 모드
                 if (valid_in) begin
                     w_addr_r <= w_addr_r + 1;
-                    b_addr_r <= b_addr_r; // 바이어스는 노드 완료 시에만 변경
+                    b_addr_r <= b_addr_r; 
                 end
                 if (end_node) begin
-                    b_addr_r <= b_addr_r + 1; // 다음 노드의 바이어스 조준
+                    b_addr_r <= b_addr_r + 1; 
                 end
             end
         end

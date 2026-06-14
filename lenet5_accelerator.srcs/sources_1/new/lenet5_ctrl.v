@@ -22,6 +22,7 @@ module lenet5_ctrl (
     output wire valid_in,
     output wire end_node,
     
+    output wire next_batch, // 💡 NEW: CONV 바이어스 주소 증가용 펄스
     output reg [2:0] current_state
 );
 
@@ -29,7 +30,6 @@ module lenet5_ctrl (
     parameter FC1  = 3'd3, FC2   = 3'd4, FC3   = 3'd5, FINISH = 3'd6;
 
     reg [2:0] next_state;
-    
     wire conv_layer_done; 
     wire fc_layer_done;   
     
@@ -60,69 +60,78 @@ module lenet5_ctrl (
         endcase
     end
 
+    // =========================================================
+    // ⚙️ [2] CONV Sub-FSM (정밀 타이밍 교정)
+    // =========================================================
     reg [2:0] c_state;
     reg [3:0] load_cnt;
     reg [15:0] wait_cnt;
     reg [2:0] stage_cnt;
-    reg [1:0] batch_cnt; // Conv1은 1배치(6개), Conv2는 2배치(16개)
+    reg [2:0] ch_cnt;    // 💡 NEW: 입력 채널 카운터 (Conv2의 Depth 6 처리용)
+    reg [1:0] batch_cnt; 
     
-    // 각 레이어별 목표 설정
-    wire [15:0] target_wait  = (current_state == CONV1) ? 16'd950 : 16'd200; // 파이프라인 여유분 포함
+    wire [15:0] target_wait  = (current_state == CONV1) ? 16'd950 : 16'd200; 
+    wire [2:0]  target_ch    = (current_state == CONV1) ? 3'd1 : 3'd6; // Conv1=1채널, Conv2=6채널
     wire [1:0]  target_batch = (current_state == CONV1) ? 2'd1 : 2'd2;
     
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
-            c_state <= 0; load_cnt <= 0; wait_cnt <= 0; stage_cnt <= 0; batch_cnt <= 0;
+            c_state <= 0; load_cnt <= 0; wait_cnt <= 0; stage_cnt <= 0; ch_cnt <= 0; batch_cnt <= 0;
         end else if (!is_conv) begin
-            // Conv 상태가 아니면 모두 초기화하고 휴식
-            c_state <= 0; load_cnt <= 0; wait_cnt <= 0; stage_cnt <= 0; batch_cnt <= 0;
+            c_state <= 0; load_cnt <= 0; wait_cnt <= 0; stage_cnt <= 0; ch_cnt <= 0; batch_cnt <= 0;
         end else begin
             case (c_state)
-                0: c_state <= 1; // 시작
-                1: begin // [상태 1] 가중치 로드 (10클럭 대기)
-                    if (load_cnt == 4'd9) begin
+                0: c_state <= 1; 
+                1: begin 
+                    // 💡 정확히 5클럭 shift_en + 1클럭 안착 대기 (총 6클럭)
+                    if (load_cnt == 4'd5) begin
                         load_cnt <= 0; c_state <= 2;
                     end else load_cnt <= load_cnt + 1;
                 end
-                2: c_state <= 3; // [상태 2] Stage 시작 펄스 (1클럭 발사)
-                3: begin // [상태 3] Stage 완료 대기 (픽셀 연산 중)
+                2: c_state <= 3; // Start 펄스 발사
+                3: begin 
                     if (wait_cnt == target_wait) begin
                         wait_cnt <= 0;
-                        if (stage_cnt == 3'd4) begin // Stage 5번(0~4) 완료
-                            stage_cnt <= 0; c_state <= 4;
-                        end else begin // 다음 Stage 진행
-                            stage_cnt <= stage_cnt + 1; c_state <= 2;
+                        if (stage_cnt == 3'd4) begin // Stage 완료
+                            stage_cnt <= 0; 
+                            if (ch_cnt == target_ch - 1) begin // 채널 완료
+                                ch_cnt <= 0; c_state <= 4; 
+                            end else begin
+                                ch_cnt <= ch_cnt + 1; c_state <= 1; // 💡 다음 채널 가중치 로드
+                            end
+                        end else begin 
+                            stage_cnt <= stage_cnt + 1; c_state <= 1; // 💡 다음 Stage 가중치 로드!
                         end
                     end else wait_cnt <= wait_cnt + 1;
                 end
-                4: begin // [상태 4] 배치 완료 점검
+                4: begin 
                     if (batch_cnt == target_batch - 1) begin
-                        batch_cnt <= 0; c_state <= 5; // 전체 레이어 완료!
+                        batch_cnt <= 0; c_state <= 5; // 레이어 완료
                     end else begin
-                        batch_cnt <= batch_cnt + 1; c_state <= 1; // 다음 8개 필터 가중치 로드
+                        batch_cnt <= batch_cnt + 1; c_state <= 1; // 다음 배치
                     end
                 end
-                5: c_state <= 5; // 메인 FSM이 상태를 바꿔줄 때까지 대기 (DONE)
+                5: c_state <= 5; // 대기
             endcase
         end
     end
 
-    // CONV 제어 신호 매핑
-    assign shift_en = (c_state == 1);
-    assign opcode   = (c_state == 1) ? 2'd1 : (c_state == 2 || c_state == 3) ? 2'd2 : 2'd0;
-    assign start    = (c_state == 2);
-    assign stage_idx = stage_cnt;
-    assign use_bias = (stage_cnt == 3'd0); // 첫 Stage(0)일 때만 Bias 사용
+    // 💡 shift_en을 정확히 5클럭만 켜서 5개의 가중치만 낭비 없이 읽음
+    assign shift_en   = (c_state == 1 && load_cnt < 4'd5); 
+    assign opcode     = (c_state == 1) ? 2'd1 : (c_state == 2 || c_state == 3) ? 2'd2 : 2'd0;
+    assign start      = (c_state == 2);
+    assign stage_idx  = stage_cnt;
+    assign use_bias   = (stage_cnt == 3'd0 && ch_cnt == 3'd0); // 💡 첫 계산에서만 바이어스 1회 더함!
+    assign next_batch = (is_conv && c_state == 4);             // 💡 배치 완료 시 바이어스 주소 1 증가 신호
     assign conv_layer_done = (c_state == 5);
 
     // =========================================================
-    // 🧠 [3] FC Sub-FSM (실무 과장님)
+    // 🧠 [3] FC Sub-FSM (기존과 동일)
     // =========================================================
     reg [1:0] f_state;
-    reg [7:0] node_cnt;  // 완료된 노드 개수
-    reg [7:0] acc_cnt;   // 누적 횟수(클럭)
+    reg [7:0] node_cnt;  
+    reg [7:0] acc_cnt;   
     
-    // FC 레이어별 목표 설정
     wire [7:0] target_nodes = (current_state == FC1) ? 8'd120 : (current_state == FC2) ? 8'd84 : 8'd10;
     wire [7:0] target_acc   = (current_state == FC1) ? 8'd50  : (current_state == FC2) ? 8'd15 : 8'd11;
 
@@ -133,30 +142,27 @@ module lenet5_ctrl (
             f_state <= 0; node_cnt <= 0; acc_cnt <= 0;
         end else begin
             case (f_state)
-                0: f_state <= 1; // 시작
-                1: f_state <= 2; // [상태 1] 시작 펄스 (Bias 로드)
-                2: begin         // [상태 2] 데이터 누적
+                0: f_state <= 1; 
+                1: f_state <= 2; 
+                2: begin         
                     if (acc_cnt == target_acc - 1) begin
                         acc_cnt <= 0; f_state <= 3;
                     end else acc_cnt <= acc_cnt + 1;
                 end
-                3: begin         // [상태 3] 노드 연산 종료 (양자화 및 저장)
+                3: begin         
                     if (node_cnt == target_nodes - 1) begin
-                        node_cnt <= 0; f_state <= 0; // 레이어 완료 (서브 FSM 초기화)
+                        node_cnt <= 0; f_state <= 0; 
                     end else begin
-                        node_cnt <= node_cnt + 1; f_state <= 1; // 다음 노드 시작
+                        node_cnt <= node_cnt + 1; f_state <= 1; 
                     end
                 end
             endcase
         end
     end
 
-    // FC 제어 신호 매핑
     assign start_node = (f_state == 1);
     assign valid_in   = (f_state == 2);
     assign end_node   = (f_state == 3);
-    
-    // 방금 전 노드를 마쳤고, 다음 노드를 시작하기 직전(0으로 돌아감)일 때 레이어 완료!
     assign fc_layer_done = (f_state == 3 && node_cnt == target_nodes - 1);
 
 endmodule
