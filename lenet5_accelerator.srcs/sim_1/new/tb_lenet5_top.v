@@ -50,9 +50,12 @@ module tb_lenet5_top();
     integer out_idx = 0;
 
     always @(posedge clk) begin
-        if (current_state == 3'd5 && uut.fc_we[0] == 1'b1) begin
-            final_scores[out_idx] = uut.fc_din_0;
-            out_idx = out_idx + 1;
+        // fc_we가 0이 아닐 때(어느 뱅크든 쓰기 발생 시) 캡처!
+        if (current_state == 3'd5 && uut.fc_we != 8'h00) begin
+            if (out_idx < 10) begin
+                final_scores[out_idx] = uut.fc_din_0;
+                out_idx = out_idx + 1;
+            end
         end
     end
 
