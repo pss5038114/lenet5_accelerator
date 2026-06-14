@@ -12,6 +12,7 @@ module fc_core #(
     input wire start_node,
     input wire valid_in,
     input wire end_node,
+    input wire relu_en,
     
     input wire [BW_A-1:0] iact_0, iact_1, iact_2, iact_3,
     input wire [BW_A-1:0] iact_4, iact_5, iact_6, iact_7,
@@ -59,12 +60,12 @@ module fc_core #(
         end
     end
 
-    wire signed [BW_P-1:0] relu_val =
-        (acc_reg[BW_P-1]) ? 32'd0 : acc_reg;
-
+    wire signed [BW_P-1:0] act_val =
+        (relu_en && acc_reg[BW_P-1]) ? 32'd0 : acc_reg;
+    
     wire signed [BW_P-1:0] shifted_val =
-        relu_val >>> SHIFT_VAL;
-
+        act_val >>> SHIFT_VAL;
+        
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
             fc_out <= 0;
