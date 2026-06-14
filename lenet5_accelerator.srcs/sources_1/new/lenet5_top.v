@@ -133,14 +133,24 @@ module lenet5_top #(
         .din_b_0(din_b_0), .din_b_1(din_b_1), .din_b_2(din_b_2), .din_b_3(din_b_3), .din_b_4(din_b_4), .din_b_5(din_b_5), .din_b_6(din_b_6), .din_b_7(din_b_7)
     );
 
+    // 🛡️ [수정] 시뮬레이션 X-오염 방지용 안전 읽기 주소 생성
+    // 쓰기 모드일 때는 읽기 주소를 강제로 반전시켜(~addr_w) 충돌을 회피합니다.
+    wire [11:0] safe_ubram_a_addr_r = (mode_select == 2'd0) ? ~dma_img_addr_w : 
+                                      (ping_pong_state == 1'b0) ? ubram_addr_r : ~ubram_addr_w;
+                                      
+    wire [11:0] safe_ubram_b_addr_r = (mode_select == 2'd0) ? 12'hFFF : 
+                                      (ping_pong_state == 1'b1) ? ubram_addr_r : ~ubram_addr_w;
+
     ubram_a_wrapper u_ubram_a (
         .clk(clk), .we_arr(we_a), .addr_w(ubram_addr_w), .din_0(din_a_0), .din_1(din_a_1), .din_2(din_a_2), .din_3(din_a_3), .din_4(din_a_4), .din_5(din_a_5), .din_6(din_a_6), .din_7(din_a_7),
-        .addr_r(ubram_addr_r), .dout_0(dout_a_0), .dout_1(dout_a_1), .dout_2(dout_a_2), .dout_3(dout_a_3), .dout_4(dout_a_4), .dout_5(dout_a_5), .dout_6(dout_a_6), .dout_7(dout_a_7)
+        // 💡 addr_r 포트 수정됨
+        .addr_r(safe_ubram_a_addr_r), .dout_0(dout_a_0), .dout_1(dout_a_1), .dout_2(dout_a_2), .dout_3(dout_a_3), .dout_4(dout_a_4), .dout_5(dout_a_5), .dout_6(dout_a_6), .dout_7(dout_a_7)
     );
 
     ubram_b_wrapper u_ubram_b (
         .clk(clk), .we_arr(we_b), .addr_w(ubram_addr_w), .din_0(din_b_0), .din_1(din_b_1), .din_2(din_b_2), .din_3(din_b_3), .din_4(din_b_4), .din_5(din_b_5), .din_6(din_b_6), .din_7(din_b_7),
-        .addr_r(ubram_addr_r), .dout_0(dout_b_0), .dout_1(dout_b_1), .dout_2(dout_b_2), .dout_3(dout_b_3), .dout_4(dout_b_4), .dout_5(dout_b_5), .dout_6(dout_b_6), .dout_7(dout_b_7)
+        // 💡 addr_r 포트 수정됨
+        .addr_r(safe_ubram_b_addr_r), .dout_0(dout_b_0), .dout_1(dout_b_1), .dout_2(dout_b_2), .dout_3(dout_b_3), .dout_4(dout_b_4), .dout_5(dout_b_5), .dout_6(dout_b_6), .dout_7(dout_b_7)
     );
 
     // =========================================================
@@ -173,9 +183,14 @@ module lenet5_top #(
         end
     end
 
+    // 🛡️ [수정] 가중치 및 바이어스 충돌 방지용 안전 읽기 주소 생성
+    wire [12:0] safe_w_addr_r = (mode_select == 2'd0) ? ~dma_w_addr_w : w_addr_r;
+    wire [6:0]  safe_b_addr_r = (mode_select == 2'd0) ? ~dma_b_addr_w : b_addr_r;
+
     weight_bram_wrapper u_weight_bram (
         .clk(clk), .we_arr(dma_w_we), .addr_w(dma_w_addr_w), .din_0(dma_w_din_0), .din_1(dma_w_din_1), .din_2(dma_w_din_2), .din_3(dma_w_din_3), .din_4(dma_w_din_4), .din_5(dma_w_din_5), .din_6(dma_w_din_6), .din_7(dma_w_din_7),
-        .addr_r(w_addr_r), .dout_0(w_dout_0), .dout_1(w_dout_1), .dout_2(w_dout_2), .dout_3(w_dout_3), .dout_4(w_dout_4), .dout_5(w_dout_5), .dout_6(w_dout_6), .dout_7(w_dout_7)
+        // 💡 addr_r 포트 수정됨
+        .addr_r(safe_w_addr_r), .dout_0(w_dout_0), .dout_1(w_dout_1), .dout_2(w_dout_2), .dout_3(w_dout_3), .dout_4(w_dout_4), .dout_5(w_dout_5), .dout_6(w_dout_6), .dout_7(w_dout_7)
     );
 
     weight_buffer_array u_weight_buf (
@@ -186,7 +201,8 @@ module lenet5_top #(
 
     bias_bram_wrapper u_bias_bram (
         .clk(clk), .we_arr(dma_b_we), .addr_w(dma_b_addr_w), .din_0(dma_b_din_0), .din_1(dma_b_din_1), .din_2(dma_b_din_2), .din_3(dma_b_din_3), .din_4(dma_b_din_4), .din_5(dma_b_din_5), .din_6(dma_b_din_6), .din_7(dma_b_din_7),
-        .addr_r(b_addr_r), .dout_0(b_dout_0), .dout_1(b_dout_1), .dout_2(b_dout_2), .dout_3(b_dout_3), .dout_4(b_dout_4), .dout_5(b_dout_5), .dout_6(b_dout_6), .dout_7(b_dout_7)
+        // 💡 addr_r 포트 수정됨
+        .addr_r(safe_b_addr_r), .dout_0(b_dout_0), .dout_1(b_dout_1), .dout_2(b_dout_2), .dout_3(b_dout_3), .dout_4(b_dout_4), .dout_5(b_dout_5), .dout_6(b_dout_6), .dout_7(b_dout_7)
     );
 
     // =========================================================
