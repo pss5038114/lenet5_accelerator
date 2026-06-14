@@ -59,7 +59,9 @@ bram_8kb_8bit your_instance_name (
   .wea(wea),      // input wire [0 : 0] wea
   .addra(addra),  // input wire [12 : 0] addra
   .dina(dina),    // input wire [7 : 0] dina
-  .douta(douta)  // output wire [7 : 0] douta
+  .clkb(clkb),    // input wire clkb
+  .addrb(addrb),  // input wire [12 : 0] addrb
+  .doutb(doutb)  // output wire [7 : 0] doutb
 );
 // INST_TAG_END ------ End INSTANTIATION Template ---------
 

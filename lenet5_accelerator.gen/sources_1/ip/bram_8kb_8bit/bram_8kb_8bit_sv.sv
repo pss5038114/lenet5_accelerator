@@ -62,7 +62,11 @@ module bram_8kb_8bit_sv (
   (* X_INTERFACE_IGNORE = "true" *)
   input wire [7:0] dina,
   (* X_INTERFACE_IGNORE = "true" *)
-  output wire [7:0] douta
+  input wire clkb,
+  (* X_INTERFACE_IGNORE = "true" *)
+  input wire [12:0] addrb,
+  (* X_INTERFACE_IGNORE = "true" *)
+  output wire [7:0] doutb
 );
 
   bram_8kb_8bit inst (
@@ -70,7 +74,9 @@ module bram_8kb_8bit_sv (
     .wea(wea),
     .addra(addra),
     .dina(dina),
-    .douta(douta)
+    .clkb(clkb),
+    .addrb(addrb),
+    .doutb(doutb)
   );
 
 endmodule

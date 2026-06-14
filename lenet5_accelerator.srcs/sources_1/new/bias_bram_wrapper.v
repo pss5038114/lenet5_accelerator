@@ -27,7 +27,7 @@ module bias_bram_wrapper (
 
     // 💡 만약 IP 이름을 변경하지 않고 기존 bram_128b_32bit를 Re-customize 하셨다면 아래 그대로 쓰시면 됩니다.
     // (만약 이름을 새로 만드셨다면 아래 bram_128b_32bit 부분만 새 이름으로 바꿔주세요!)
-    bram_128b_32bit bank0 (.clka(clk), .wea(we_arr), .addra(addr_w), .dina(din_0), .clkb(clk), .addrb(addr_r), .doutb(dout_0));
+    bram_128b_32bit bank0 (.clka(clk), .wea(we_arr[0]), .addra(addr_w), .dina(din_0), .clkb(clk), .addrb(addr_r), .doutb(dout_0));
     bram_128b_32bit bank1 (.clka(clk), .wea(we_arr[1]), .addra(addr_w), .dina(din_1), .clkb(clk), .addrb(addr_r), .doutb(dout_1));
     bram_128b_32bit bank2 (.clka(clk), .wea(we_arr[2]), .addra(addr_w), .dina(din_2), .clkb(clk), .addrb(addr_r), .doutb(dout_2));
     bram_128b_32bit bank3 (.clka(clk), .wea(we_arr[3]), .addra(addr_w), .dina(din_3), .clkb(clk), .addrb(addr_r), .doutb(dout_3));
