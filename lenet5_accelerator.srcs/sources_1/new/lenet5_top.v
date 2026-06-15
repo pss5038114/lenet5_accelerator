@@ -441,20 +441,20 @@ module lenet5_top #(
     );
 
     top_input_router u_top_router (
-        .clk(clk),
-        .reset_n(reset_n),
         .opcode(opcode),
         .use_bias(use_bias),
-
-        .w_0(w_buf_0), .w_1(w_buf_1), .w_2(w_buf_2), .w_3(w_buf_3),
-        .w_4(w_buf_4), .w_5(w_buf_5), .w_6(w_buf_6), .w_7(w_buf_7),
-
+    
+        // 중요:
+        // weight_buffer_array를 우회하고 BRAM 출력 w_dout을 바로 사용
+        .w_0(w_dout_0), .w_1(w_dout_1), .w_2(w_dout_2), .w_3(w_dout_3),
+        .w_4(w_dout_4), .w_5(w_dout_5), .w_6(w_dout_6), .w_7(w_dout_7),
+    
         .b_0(b_dout_0), .b_1(b_dout_1), .b_2(b_dout_2), .b_3(b_dout_3),
         .b_4(b_dout_4), .b_5(b_dout_5), .b_6(b_dout_6), .b_7(b_dout_7),
-
+    
         .p_0(out_bram_dout_0), .p_1(out_bram_dout_1), .p_2(out_bram_dout_2), .p_3(out_bram_dout_3),
         .p_4(out_bram_dout_4), .p_5(out_bram_dout_5), .p_6(out_bram_dout_6), .p_7(out_bram_dout_7),
-
+    
         .top_in_0(pe_top_in_0), .top_in_1(pe_top_in_1), .top_in_2(pe_top_in_2), .top_in_3(pe_top_in_3),
         .top_in_4(pe_top_in_4), .top_in_5(pe_top_in_5), .top_in_6(pe_top_in_6), .top_in_7(pe_top_in_7)
     );

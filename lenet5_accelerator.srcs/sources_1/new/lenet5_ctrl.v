@@ -163,7 +163,7 @@ module lenet5_ctrl (
 
                 3'd1: begin
                     // 5개 weight preload
-                    if (load_cnt == 4'd5) begin
+                    if (load_cnt == 4'd4) begin
                         load_cnt <= 4'd0;
                         c_state  <= 3'd2;
                     end else begin
@@ -225,7 +225,7 @@ module lenet5_ctrl (
         end
     end
 
-    assign shift_en = is_conv && (c_state == 3'd1) && (load_cnt < 4'd5);
+    assign shift_en = is_conv && (c_state == 1);
 
     assign opcode = (c_state == 3'd1) ? 2'd1 :
                     (c_state == 3'd2 || c_state == 3'd3) ? 2'd2 :
