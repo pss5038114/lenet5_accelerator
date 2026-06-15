@@ -33,7 +33,7 @@ module lenet5_top #(
 
     // ==========================================
     // Bias DMA
-    // 중요: bias.txt는 217 address/bank이므로 8-bit address 필요
+    // bias.txt는 217 address/bank이므로 8-bit address 필요
     // ==========================================
     input wire [7:0] dma_b_we,
     input wire [7:0] dma_b_addr_w,
@@ -60,7 +60,6 @@ module lenet5_top #(
     wire end_node;
     wire next_batch;
 
-    // 추가된 Conv 디버깅/제어 신호
     wire [2:0] conv_ch_idx;
     wire conv_final_pass;
 
@@ -88,7 +87,6 @@ module lenet5_top #(
 
         .next_batch(next_batch),
 
-        // 여기서 새 포트 연결
         .conv_ch_idx(conv_ch_idx),
         .conv_final_pass(conv_final_pass),
 
@@ -265,9 +263,23 @@ module lenet5_top #(
     wire [BW_W-1:0] w_dout_0, w_dout_1, w_dout_2, w_dout_3;
     wire [BW_W-1:0] w_dout_4, w_dout_5, w_dout_6, w_dout_7;
 
+    // BRAM에서 읽은 5개 tap을 임시 저장하고,
+    // PE LOAD 때 역순으로 출력하는 register buffer
+    wire [BW_W-1:0] w_buf_0, w_buf_1, w_buf_2, w_buf_3;
+    wire [BW_W-1:0] w_buf_4, w_buf_5, w_buf_6, w_buf_7;
+
     wire [BW_P-1:0] b_dout_0, b_dout_1, b_dout_2, b_dout_3;
     wire [BW_P-1:0] b_dout_4, b_dout_5, b_dout_6, b_dout_7;
 
+    // weight/bias read address control
+    //
+    // CONV mode:
+    //   shift_en이 1일 때 BRAM weight address 증가
+    //   next_batch에서 bias address 증가
+    //
+    // FC mode:
+    //   valid_in마다 FC weight address 증가
+    //   end_node마다 FC bias address 증가
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
             w_addr_r <= 13'd0;
@@ -304,6 +316,35 @@ module lenet5_top #(
         .addr_r(safe_w_addr_r),
         .dout_0(w_dout_0), .dout_1(w_dout_1), .dout_2(w_dout_2), .dout_3(w_dout_3),
         .dout_4(w_dout_4), .dout_5(w_dout_5), .dout_6(w_dout_6), .dout_7(w_dout_7)
+    );
+
+    // =========================================================
+    // Weight buffer
+    //
+    // c_state 1:
+    //   shift_en = 1
+    //   BRAM output w_dout_*를 buffer에 forward 순서로 capture
+    //
+    // c_state 2:
+    //   opcode = 1
+    //   buffer가 reverse 순서로 w_buf_*를 출력
+    //   PE column cascade 이후 top PE부터 원래 순서가 됨
+    // =========================================================
+    weight_buffer_array u_weight_buf (
+        .clk(clk),
+        .reset_n(reset_n),
+
+        // BRAM -> buffer capture
+        .shift_en(shift_en),
+
+        // buffer -> PE load
+        .load_en(opcode == 2'd1),
+
+        .bram_w_0(w_dout_0), .bram_w_1(w_dout_1), .bram_w_2(w_dout_2), .bram_w_3(w_dout_3),
+        .bram_w_4(w_dout_4), .bram_w_5(w_dout_5), .bram_w_6(w_dout_6), .bram_w_7(w_dout_7),
+
+        .pe_w_0(w_buf_0), .pe_w_1(w_buf_1), .pe_w_2(w_buf_2), .pe_w_3(w_buf_3),
+        .pe_w_4(w_buf_4), .pe_w_5(w_buf_5), .pe_w_6(w_buf_6), .pe_w_7(w_buf_7)
     );
 
     bias_bram_wrapper u_bias_bram (
@@ -430,18 +471,19 @@ module lenet5_top #(
     top_input_router u_top_router (
         .opcode(opcode),
         .use_bias(use_bias),
-    
+
         // 중요:
-        // weight_buffer_array를 우회하고 BRAM 출력 w_dout을 바로 사용
-        .w_0(w_dout_0), .w_1(w_dout_1), .w_2(w_dout_2), .w_3(w_dout_3),
-        .w_4(w_dout_4), .w_5(w_dout_5), .w_6(w_dout_6), .w_7(w_dout_7),
-    
+        // Conv weight는 BRAM 직접 출력이 아니라,
+        // weight_buffer_array에서 역순으로 꺼낸 w_buf_*를 사용
+        .w_0(w_buf_0), .w_1(w_buf_1), .w_2(w_buf_2), .w_3(w_buf_3),
+        .w_4(w_buf_4), .w_5(w_buf_5), .w_6(w_buf_6), .w_7(w_buf_7),
+
         .b_0(b_dout_0), .b_1(b_dout_1), .b_2(b_dout_2), .b_3(b_dout_3),
         .b_4(b_dout_4), .b_5(b_dout_5), .b_6(b_dout_6), .b_7(b_dout_7),
-    
+
         .p_0(out_bram_dout_0), .p_1(out_bram_dout_1), .p_2(out_bram_dout_2), .p_3(out_bram_dout_3),
         .p_4(out_bram_dout_4), .p_5(out_bram_dout_5), .p_6(out_bram_dout_6), .p_7(out_bram_dout_7),
-    
+
         .top_in_0(pe_top_in_0), .top_in_1(pe_top_in_1), .top_in_2(pe_top_in_2), .top_in_3(pe_top_in_3),
         .top_in_4(pe_top_in_4), .top_in_5(pe_top_in_5), .top_in_6(pe_top_in_6), .top_in_7(pe_top_in_7)
     );
@@ -457,6 +499,8 @@ module lenet5_top #(
         .reset_n(reset_n),
         .opcode(opcode),
 
+        // Conv1의 column6/7은 weight/bias가 0 padding이면 결과상 영향 없음.
+        // 일단 valid/skew 구조를 깨지 않기 위해 전체 column enable 유지.
         .col_en(8'hFF),
         .row_en(5'h1F),
 

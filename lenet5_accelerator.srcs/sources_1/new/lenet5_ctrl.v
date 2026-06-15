@@ -111,20 +111,20 @@ module lenet5_ctrl (
         endcase
     end
 
-        // =========================================================
+    // =========================================================
     // CONV Sub-FSM
     //
     // c_state:
     // 0 = 준비
-    // 1 = BRAM read warm-up / next address advance
-    // 2 = weight load into PE
+    // 1 = BRAM -> weight_buffer capture
+    // 2 = weight_buffer -> PE weight load
     // 3 = input_buffer start pulse
     // 4 = stream/MAC 대기
     // 5 = batch boundary / layer done pulse
     //
     // 핵심:
-    // BRAM read latency가 1클럭이므로,
-    // opcode=LOAD를 켜기 전에 주소를 한 번 미리 증가시키는 warm-up state를 둔다.
+    // - c_state 1에서 BRAM weight 5개를 buffer에 forward 순서로 저장
+    // - c_state 2에서 buffer가 역순으로 출력한 weight를 PE column에 load
     // =========================================================
     reg [2:0]  c_state;
     reg [3:0]  load_cnt;
@@ -161,36 +161,36 @@ module lenet5_ctrl (
 
                 // -------------------------------------------------
                 // 0. 준비 상태
-                // 현재 w_addr_r 주소를 BRAM에 충분히 안정적으로 걸어둠
+                // 현재 w_addr_r 주소를 BRAM read port에 걸어둠
                 // -------------------------------------------------
                 3'd0: begin
                     c_state <= 3'd1;
                 end
 
                 // -------------------------------------------------
-                // 1. BRAM read warm-up
+                // 1. BRAM -> weight_buffer capture
                 //
-                // 이 상태에서는 opcode=0이라 PE가 weight를 잡지 않음.
-                // 대신 shift_en=1이 되어 w_addr_r이 다음 주소로 미리 증가함.
+                // shift_en = 1
+                // weight_buffer_array가 bram_w_*를 buf[0]~buf[4]에 저장
                 //
-                // 예:
-                // 현재 w_addr_r = addr0
-                // 이 클럭에서 w_addr_r -> addr1
-                // 다음 LOAD 첫 클럭에서 PE는 addr0의 dout을 잡음
+                // 동시에 lenet5_top의 w_addr_r도 매 클럭 증가
                 // -------------------------------------------------
                 3'd1: begin
-                    c_state <= 3'd2;
+                    if (load_cnt == 4'd4) begin
+                        load_cnt <= 4'd0;
+                        c_state  <= 3'd2;
+                    end else begin
+                        load_cnt <= load_cnt + 4'd1;
+                    end
                 end
 
                 // -------------------------------------------------
-                // 2. 실제 weight load
+                // 2. weight_buffer -> PE weight load
                 //
-                // load_cnt = 0,1,2,3,4에서 PE가 총 5개의 weight를 잡음.
-                //
-                // load_cnt 0~3에서는 다음 tap을 위해 주소를 증가시킴.
-                // load_cnt 4에서는 마지막 weight를 잡고 주소는 증가시키지 않음.
-                //
-                // 이러면 다음 kernel row 시작 주소가 보존됨.
+                // opcode = 1
+                // weight_buffer_array가 buf[4]~buf[0] 역순으로 출력
+                // PE column cascade 결과, 최종적으로 top PE부터
+                // buf[0], buf[1], buf[2], buf[3], buf[4] 순서가 됨
                 // -------------------------------------------------
                 3'd2: begin
                     if (load_cnt == 4'd4) begin
@@ -263,27 +263,13 @@ module lenet5_ctrl (
     // CONV control outputs
     // =========================================================
 
-    // shift_en은 weight read address를 증가시키는 신호로 사용됨.
-    //
-    // c_state 1:
-    //   addr0을 PE가 잡기 전에 addr1을 미리 걸어두기 위한 warm-up increment
-    //
-    // c_state 2, load_cnt 0~3:
-    //   다음 tap을 미리 준비하기 위한 increment
-    //
-    // c_state 2, load_cnt 4:
-    //   마지막 tap을 잡는 클럭이므로 증가시키지 않음.
-    //   그래야 다음 kernel row의 첫 주소가 보존됨.
+    // c_state 1에서만 BRAM -> weight_buffer capture
+    // lenet5_top.v에서 이 신호로 w_addr_r도 증가함
     assign shift_en =
         is_conv &&
-        (
-            (c_state == 3'd1) ||
-            ((c_state == 3'd2) && (load_cnt < 4'd4))
-        );
+        (c_state == 3'd1);
 
-    // opcode:
     // c_state 2에서만 PE weight load
-    // c_state 3,4에서 MAC
     assign opcode =
         (c_state == 3'd2) ? 2'd1 :
         (c_state == 3'd3 || c_state == 3'd4) ? 2'd2 :
