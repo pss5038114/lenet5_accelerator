@@ -11,12 +11,12 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="263,688.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="263,756.551 ns"></ZoomEndTime>
-      <Cursor1Time time="263,524.800 ns"></Cursor1Time>
+      <ZoomStartTime time="98,964.500 ns"></ZoomStartTime>
+      <ZoomEndTime time="99,758.001 ns"></ZoomEndTime>
+      <Cursor1Time time="99,415.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="170"></NameColumnWidth>
+      <NameColumnWidth column_width="179"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="43" />
@@ -115,17 +115,21 @@
          <obj_property name="label">column 0</obj_property>
          <obj_property name="DisplayName">label</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_0" type="array">
          <obj_property name="ElementShortName">top_in_0[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_0[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_0" type="array">
          <obj_property name="ElementShortName">bottom_out_0[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_0[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#FFD700</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
@@ -166,6 +170,10 @@
       <wvobject type="divider" fp_name="divider288">
          <obj_property name="label">column 1</obj_property>
          <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_1" type="array">
          <obj_property name="ElementShortName">top_in_1[31:0]</obj_property>
@@ -219,6 +227,10 @@
          <obj_property name="label">column 2</obj_property>
          <obj_property name="DisplayName">label</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_2" type="array">
          <obj_property name="ElementShortName">top_in_2[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_2[31:0]</obj_property>
@@ -270,6 +282,10 @@
       <wvobject type="divider" fp_name="divider290">
          <obj_property name="label">column 3</obj_property>
          <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_3" type="array">
          <obj_property name="ElementShortName">top_in_3[31:0]</obj_property>
@@ -323,6 +339,10 @@
          <obj_property name="label">column 4</obj_property>
          <obj_property name="DisplayName">label</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_4" type="array">
          <obj_property name="ElementShortName">top_in_4[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_4[31:0]</obj_property>
@@ -374,6 +394,10 @@
       <wvobject type="divider" fp_name="divider292">
          <obj_property name="label">column 5</obj_property>
          <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_5" type="array">
          <obj_property name="ElementShortName">top_in_5[31:0]</obj_property>
@@ -427,6 +451,10 @@
          <obj_property name="label">column 6</obj_property>
          <obj_property name="DisplayName">label</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_6" type="array">
          <obj_property name="ElementShortName">top_in_6[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_6[31:0]</obj_property>
@@ -478,6 +506,10 @@
       <wvobject type="divider" fp_name="divider294">
          <obj_property name="label">column 7</obj_property>
          <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_7" type="array">
          <obj_property name="ElementShortName">top_in_7[31:0]</obj_property>
