@@ -111,19 +111,20 @@ module lenet5_ctrl (
         endcase
     end
 
-    // =========================================================
+        // =========================================================
     // CONV Sub-FSM
     //
     // c_state:
     // 0 = 준비
-    // 1 = weight preload
-    // 2 = input_buffer start pulse
-    // 3 = stream/MAC 대기
-    // 4 = batch boundary / layer done pulse
+    // 1 = BRAM read warm-up / next address advance
+    // 2 = weight load into PE
+    // 3 = input_buffer start pulse
+    // 4 = stream/MAC 대기
+    // 5 = batch boundary / layer done pulse
     //
-    // 중요:
-    // 기존 c_state 5 hold 상태를 제거함.
-    // conv_layer_done은 c_state 4의 마지막 batch에서만 1클럭 pulse처럼 동작.
+    // 핵심:
+    // BRAM read latency가 1클럭이므로,
+    // opcode=LOAD를 켜기 전에 주소를 한 번 미리 증가시키는 warm-up state를 둔다.
     // =========================================================
     reg [2:0]  c_state;
     reg [3:0]  load_cnt;
@@ -157,27 +158,60 @@ module lenet5_ctrl (
             batch_cnt <= 2'd0;
         end else begin
             case (c_state)
+
+                // -------------------------------------------------
+                // 0. 준비 상태
+                // 현재 w_addr_r 주소를 BRAM에 충분히 안정적으로 걸어둠
+                // -------------------------------------------------
                 3'd0: begin
                     c_state <= 3'd1;
                 end
 
+                // -------------------------------------------------
+                // 1. BRAM read warm-up
+                //
+                // 이 상태에서는 opcode=0이라 PE가 weight를 잡지 않음.
+                // 대신 shift_en=1이 되어 w_addr_r이 다음 주소로 미리 증가함.
+                //
+                // 예:
+                // 현재 w_addr_r = addr0
+                // 이 클럭에서 w_addr_r -> addr1
+                // 다음 LOAD 첫 클럭에서 PE는 addr0의 dout을 잡음
+                // -------------------------------------------------
                 3'd1: begin
-                    // 5개 weight preload
+                    c_state <= 3'd2;
+                end
+
+                // -------------------------------------------------
+                // 2. 실제 weight load
+                //
+                // load_cnt = 0,1,2,3,4에서 PE가 총 5개의 weight를 잡음.
+                //
+                // load_cnt 0~3에서는 다음 tap을 위해 주소를 증가시킴.
+                // load_cnt 4에서는 마지막 weight를 잡고 주소는 증가시키지 않음.
+                //
+                // 이러면 다음 kernel row 시작 주소가 보존됨.
+                // -------------------------------------------------
+                3'd2: begin
                     if (load_cnt == 4'd4) begin
                         load_cnt <= 4'd0;
-                        c_state  <= 3'd2;
+                        c_state  <= 3'd3;
                     end else begin
                         load_cnt <= load_cnt + 4'd1;
                     end
                 end
 
-                3'd2: begin
-                    // input_buffer start pulse
-                    c_state <= 3'd3;
+                // -------------------------------------------------
+                // 3. input_buffer start pulse
+                // -------------------------------------------------
+                3'd3: begin
+                    c_state <= 3'd4;
                 end
 
-                3'd3: begin
-                    // PE/input_buffer/postprocess 완료를 기다리는 구간
+                // -------------------------------------------------
+                // 4. MAC / stream wait
+                // -------------------------------------------------
+                3'd4: begin
                     if (wait_cnt == target_wait) begin
                         wait_cnt <= 16'd0;
 
@@ -186,7 +220,7 @@ module lenet5_ctrl (
 
                             if (last_ch) begin
                                 ch_cnt  <= 3'd0;
-                                c_state <= 3'd4;
+                                c_state <= 3'd5;
                             end else begin
                                 ch_cnt  <= ch_cnt + 3'd1;
                                 c_state <= 3'd1;
@@ -200,10 +234,10 @@ module lenet5_ctrl (
                     end
                 end
 
-                3'd4: begin
-                    // batch boundary
-                    // 여기서 next_batch가 1이 되고 bias 주소가 다음 batch/layer로 넘어감.
-                    // 마지막 batch라면 layer done pulse를 내고 c_state를 0으로 되돌림.
+                // -------------------------------------------------
+                // 5. batch boundary / layer done
+                // -------------------------------------------------
+                3'd5: begin
                     if (last_batch) begin
                         batch_cnt <= 2'd0;
                         c_state   <= 3'd0;
@@ -225,13 +259,38 @@ module lenet5_ctrl (
         end
     end
 
-    assign shift_en = is_conv && (c_state == 1);
+    // =========================================================
+    // CONV control outputs
+    // =========================================================
 
-    assign opcode = (c_state == 3'd1) ? 2'd1 :
-                    (c_state == 3'd2 || c_state == 3'd3) ? 2'd2 :
-                    2'd0;
+    // shift_en은 weight read address를 증가시키는 신호로 사용됨.
+    //
+    // c_state 1:
+    //   addr0을 PE가 잡기 전에 addr1을 미리 걸어두기 위한 warm-up increment
+    //
+    // c_state 2, load_cnt 0~3:
+    //   다음 tap을 미리 준비하기 위한 increment
+    //
+    // c_state 2, load_cnt 4:
+    //   마지막 tap을 잡는 클럭이므로 증가시키지 않음.
+    //   그래야 다음 kernel row의 첫 주소가 보존됨.
+    assign shift_en =
+        is_conv &&
+        (
+            (c_state == 3'd1) ||
+            ((c_state == 3'd2) && (load_cnt < 4'd4))
+        );
 
-    assign start = is_conv && (c_state == 3'd2);
+    // opcode:
+    // c_state 2에서만 PE weight load
+    // c_state 3,4에서 MAC
+    assign opcode =
+        (c_state == 3'd2) ? 2'd1 :
+        (c_state == 3'd3 || c_state == 3'd4) ? 2'd2 :
+        2'd0;
+
+    // input_buffer start pulse
+    assign start = is_conv && (c_state == 3'd3);
 
     assign stage_idx = stage_cnt;
 
@@ -239,25 +298,22 @@ module lenet5_ctrl (
     assign use_bias = is_conv && (stage_cnt == 3'd0) && (ch_cnt == 3'd0);
 
     // batch 종료 시 bias 주소 증가
-    // CONV1: conv1 bias → conv2 first bias
-    // CONV2 batch0: filter0~7 bias → filter8~15 bias
-    // CONV2 batch1: conv2 bias → fc1 bias
-    assign next_batch = is_conv && (c_state == 3'd4);
+    assign next_batch = is_conv && (c_state == 3'd5);
 
     assign conv_ch_idx = ch_cnt;
 
     // 마지막 input channel의 마지막 kernel row에서만 post-process 허용
-    assign conv_final_pass = is_conv &&
-                             (c_state == 3'd3) &&
-                             last_stage &&
-                             last_ch;
+    assign conv_final_pass =
+        is_conv &&
+        (c_state == 3'd4) &&
+        last_stage &&
+        last_ch;
 
-    // 핵심 수정:
-    // c_state 4의 마지막 batch 순간에만 conv_layer_done = 1
-    // 다음 클럭에는 c_state가 0으로 돌아가므로 Conv2에서 done이 유지되지 않음.
-    assign conv_layer_done = is_conv &&
-                             (c_state == 3'd4) &&
-                             last_batch;
+    // layer done은 c_state 5의 마지막 batch에서만 1클럭 pulse
+    assign conv_layer_done =
+        is_conv &&
+        (c_state == 3'd5) &&
+        last_batch;
 
     // =========================================================
     // FC Sub-FSM

@@ -11,12 +11,12 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="44.915000 us"></ZoomStartTime>
-      <ZoomEndTime time="124.415001 us"></ZoomEndTime>
-      <Cursor1Time time="89.715000 us"></Cursor1Time>
+      <ZoomStartTime time="0.010600 us"></ZoomStartTime>
+      <ZoomEndTime time="273.410601 us"></ZoomEndTime>
+      <Cursor1Time time="87.410600 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="178"></NameColumnWidth>
+      <NameColumnWidth column_width="174"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="42" />
@@ -122,12 +122,6 @@
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_0" type="array">
-         <obj_property name="ElementShortName">bram_w_0[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_0[7:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_0" type="array">
          <obj_property name="ElementShortName">bottom_out_0[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_0[31:0]</obj_property>
@@ -170,12 +164,6 @@
          <obj_property name="ObjectShortName">top_in_1[31:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_1" type="array">
-         <obj_property name="ElementShortName">bram_w_1[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_1[7:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_1" type="array">
@@ -222,12 +210,6 @@
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_2" type="array">
-         <obj_property name="ElementShortName">bram_w_2[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_2[7:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_2" type="array">
          <obj_property name="ElementShortName">bottom_out_2[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_2[31:0]</obj_property>
@@ -270,12 +252,6 @@
          <obj_property name="ObjectShortName">top_in_3[31:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_3" type="array">
-         <obj_property name="ElementShortName">bram_w_3[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_3[7:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_3" type="array">
@@ -322,12 +298,6 @@
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_4" type="array">
-         <obj_property name="ElementShortName">bram_w_4[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_4[7:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_4" type="array">
          <obj_property name="ElementShortName">bottom_out_4[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_4[31:0]</obj_property>
@@ -370,12 +340,6 @@
          <obj_property name="ObjectShortName">top_in_5[31:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_5" type="array">
-         <obj_property name="ElementShortName">bram_w_5[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_5[7:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_5" type="array">
@@ -422,12 +386,6 @@
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_6" type="array">
-         <obj_property name="ElementShortName">bram_w_6[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_6[7:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_6" type="array">
          <obj_property name="ElementShortName">bottom_out_6[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_6[31:0]</obj_property>
@@ -470,12 +428,6 @@
          <obj_property name="ObjectShortName">top_in_7[31:0]</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_7" type="array">
-         <obj_property name="ElementShortName">bram_w_7[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_7[7:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_7" type="array">
@@ -547,86 +499,6 @@
    <wvobject fp_name="group414" type="group">
       <obj_property name="label">Weight Buffer</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_0" type="array">
-         <obj_property name="ElementShortName">bram_w_0[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_0[7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/buf_0" type="array">
-         <obj_property name="ElementShortName">buf_0[0:4][7:0]</obj_property>
-         <obj_property name="ObjectShortName">buf_0[0:4][7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_1" type="array">
-         <obj_property name="ElementShortName">bram_w_1[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_1[7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/buf_1" type="array">
-         <obj_property name="ElementShortName">buf_1[0:4][7:0]</obj_property>
-         <obj_property name="ObjectShortName">buf_1[0:4][7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_2" type="array">
-         <obj_property name="ElementShortName">bram_w_2[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_2[7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/buf_2" type="array">
-         <obj_property name="ElementShortName">buf_2[0:4][7:0]</obj_property>
-         <obj_property name="ObjectShortName">buf_2[0:4][7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_3" type="array">
-         <obj_property name="ElementShortName">bram_w_3[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_3[7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/buf_3" type="array">
-         <obj_property name="ElementShortName">buf_3[0:4][7:0]</obj_property>
-         <obj_property name="ObjectShortName">buf_3[0:4][7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_4" type="array">
-         <obj_property name="ElementShortName">bram_w_4[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_4[7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/buf_4" type="array">
-         <obj_property name="ElementShortName">buf_4[0:4][7:0]</obj_property>
-         <obj_property name="ObjectShortName">buf_4[0:4][7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_5" type="array">
-         <obj_property name="ElementShortName">bram_w_5[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_5[7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/buf_5" type="array">
-         <obj_property name="ElementShortName">buf_5[0:4][7:0]</obj_property>
-         <obj_property name="ObjectShortName">buf_5[0:4][7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_6" type="array">
-         <obj_property name="ElementShortName">bram_w_6[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_6[7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/buf_6" type="array">
-         <obj_property name="ElementShortName">buf_6[0:4][7:0]</obj_property>
-         <obj_property name="ObjectShortName">buf_6[0:4][7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_7" type="array">
-         <obj_property name="ElementShortName">bram_w_7[7:0]</obj_property>
-         <obj_property name="ObjectShortName">bram_w_7[7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/buf_7" type="array">
-         <obj_property name="ElementShortName">buf_7[0:4][7:0]</obj_property>
-         <obj_property name="ObjectShortName">buf_7[0:4][7:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
    </wvobject>
    <wvobject type="divider" fp_name="divider84">
       <obj_property name="label">uut.u_ctrl</obj_property>
