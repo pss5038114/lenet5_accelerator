@@ -265,9 +265,6 @@ module lenet5_top #(
     wire [BW_W-1:0] w_dout_0, w_dout_1, w_dout_2, w_dout_3;
     wire [BW_W-1:0] w_dout_4, w_dout_5, w_dout_6, w_dout_7;
 
-    wire [BW_W-1:0] w_buf_0, w_buf_1, w_buf_2, w_buf_3;
-    wire [BW_W-1:0] w_buf_4, w_buf_5, w_buf_6, w_buf_7;
-
     wire [BW_P-1:0] b_dout_0, b_dout_1, b_dout_2, b_dout_3;
     wire [BW_P-1:0] b_dout_4, b_dout_5, b_dout_6, b_dout_7;
 
@@ -307,16 +304,6 @@ module lenet5_top #(
         .addr_r(safe_w_addr_r),
         .dout_0(w_dout_0), .dout_1(w_dout_1), .dout_2(w_dout_2), .dout_3(w_dout_3),
         .dout_4(w_dout_4), .dout_5(w_dout_5), .dout_6(w_dout_6), .dout_7(w_dout_7)
-    );
-
-    weight_buffer_array u_weight_buf (
-        .clk(clk),
-        .reset_n(reset_n),
-        .shift_en(shift_en),
-        .bram_w_0(w_dout_0), .bram_w_1(w_dout_1), .bram_w_2(w_dout_2), .bram_w_3(w_dout_3),
-        .bram_w_4(w_dout_4), .bram_w_5(w_dout_5), .bram_w_6(w_dout_6), .bram_w_7(w_dout_7),
-        .pe_w_0(w_buf_0), .pe_w_1(w_buf_1), .pe_w_2(w_buf_2), .pe_w_3(w_buf_3),
-        .pe_w_4(w_buf_4), .pe_w_5(w_buf_5), .pe_w_6(w_buf_6), .pe_w_7(w_buf_7)
     );
 
     bias_bram_wrapper u_bias_bram (
