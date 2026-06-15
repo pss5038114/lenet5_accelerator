@@ -117,14 +117,16 @@ module lenet5_ctrl (
     // c_state:
     // 0 = 준비
     // 1 = BRAM -> weight_buffer capture
-    // 2 = weight_buffer -> PE weight load
-    // 3 = input_buffer start pulse
-    // 4 = stream/MAC 대기
-    // 5 = batch boundary / layer done pulse
+    // 2 = capture settle, 마지막 BRAM output을 buffer에 저장할 시간 확보
+    // 3 = weight_buffer -> PE weight load
+    // 4 = input_buffer start pulse
+    // 5 = stream/MAC 대기
+    // 6 = batch boundary / layer done pulse
     //
     // 핵심:
-    // - c_state 1에서 BRAM weight 5개를 buffer에 forward 순서로 저장
-    // - c_state 2에서 buffer가 역순으로 출력한 weight를 PE column에 load
+    // weight_buffer_array 내부에서 shift_en을 1클럭 delay해서 capture하므로,
+    // shift_en이 끝난 직후 바로 opcode=1로 넘어가면 마지막 tap capture와 첫 PE load가 겹친다.
+    // 따라서 c_state 2에서 1클럭 기다린 뒤 PE LOAD를 시작한다.
     // =========================================================
     reg [2:0]  c_state;
     reg [3:0]  load_cnt;
@@ -161,7 +163,6 @@ module lenet5_ctrl (
 
                 // -------------------------------------------------
                 // 0. 준비 상태
-                // 현재 w_addr_r 주소를 BRAM read port에 걸어둠
                 // -------------------------------------------------
                 3'd0: begin
                     c_state <= 3'd1;
@@ -171,9 +172,8 @@ module lenet5_ctrl (
                 // 1. BRAM -> weight_buffer capture
                 //
                 // shift_en = 1
-                // weight_buffer_array가 bram_w_*를 buf[0]~buf[4]에 저장
-                //
-                // 동시에 lenet5_top의 w_addr_r도 매 클럭 증가
+                // lenet5_top.v의 w_addr_r 증가
+                // weight_buffer_array 내부에서는 shift_en_d로 1클럭 늦게 capture
                 // -------------------------------------------------
                 3'd1: begin
                     if (load_cnt == 4'd4) begin
@@ -185,33 +185,47 @@ module lenet5_ctrl (
                 end
 
                 // -------------------------------------------------
-                // 2. weight_buffer -> PE weight load
+                // 2. capture settle
+                //
+                // 이 1클럭 동안:
+                // - shift_en = 0
+                // - opcode = 0
+                // - weight_buffer_array 내부 shift_en_d가 마지막으로 1이 되어
+                //   다섯 번째 tap을 buf[4]에 저장함
+                //
+                // 이 상태가 없으면 첫 PE LOAD와 마지막 capture가 겹쳐서
+                // 01이 빠지고 fe부터 보이는 문제가 생김.
+                // -------------------------------------------------
+                3'd2: begin
+                    c_state <= 3'd3;
+                end
+
+                // -------------------------------------------------
+                // 3. weight_buffer -> PE weight load
                 //
                 // opcode = 1
                 // weight_buffer_array가 buf[4]~buf[0] 역순으로 출력
-                // PE column cascade 결과, 최종적으로 top PE부터
-                // buf[0], buf[1], buf[2], buf[3], buf[4] 순서가 됨
                 // -------------------------------------------------
-                3'd2: begin
+                3'd3: begin
                     if (load_cnt == 4'd4) begin
                         load_cnt <= 4'd0;
-                        c_state  <= 3'd3;
+                        c_state  <= 3'd4;
                     end else begin
                         load_cnt <= load_cnt + 4'd1;
                     end
                 end
 
                 // -------------------------------------------------
-                // 3. input_buffer start pulse
+                // 4. input_buffer start pulse
                 // -------------------------------------------------
-                3'd3: begin
-                    c_state <= 3'd4;
+                3'd4: begin
+                    c_state <= 3'd5;
                 end
 
                 // -------------------------------------------------
-                // 4. MAC / stream wait
+                // 5. MAC / stream wait
                 // -------------------------------------------------
-                3'd4: begin
+                3'd5: begin
                     if (wait_cnt == target_wait) begin
                         wait_cnt <= 16'd0;
 
@@ -220,7 +234,7 @@ module lenet5_ctrl (
 
                             if (last_ch) begin
                                 ch_cnt  <= 3'd0;
-                                c_state <= 3'd5;
+                                c_state <= 3'd6;
                             end else begin
                                 ch_cnt  <= ch_cnt + 3'd1;
                                 c_state <= 3'd1;
@@ -235,9 +249,9 @@ module lenet5_ctrl (
                 end
 
                 // -------------------------------------------------
-                // 5. batch boundary / layer done
+                // 6. batch boundary / layer done
                 // -------------------------------------------------
-                3'd5: begin
+                3'd6: begin
                     if (last_batch) begin
                         batch_cnt <= 2'd0;
                         c_state   <= 3'd0;
@@ -263,20 +277,21 @@ module lenet5_ctrl (
     // CONV control outputs
     // =========================================================
 
-    // c_state 1에서만 BRAM -> weight_buffer capture
-    // lenet5_top.v에서 이 신호로 w_addr_r도 증가함
+    // c_state 1에서만 BRAM read address 증가.
+    // weight_buffer_array는 내부 shift_en_d로 한 클럭 늦게 실제 capture.
     assign shift_en =
         is_conv &&
         (c_state == 3'd1);
 
-    // c_state 2에서만 PE weight load
+    // c_state 3에서만 PE weight LOAD.
+    // c_state 4,5에서 MAC.
     assign opcode =
-        (c_state == 3'd2) ? 2'd1 :
-        (c_state == 3'd3 || c_state == 3'd4) ? 2'd2 :
+        (c_state == 3'd3) ? 2'd1 :
+        (c_state == 3'd4 || c_state == 3'd5) ? 2'd2 :
         2'd0;
 
     // input_buffer start pulse
-    assign start = is_conv && (c_state == 3'd3);
+    assign start = is_conv && (c_state == 3'd4);
 
     assign stage_idx = stage_cnt;
 
@@ -284,21 +299,21 @@ module lenet5_ctrl (
     assign use_bias = is_conv && (stage_cnt == 3'd0) && (ch_cnt == 3'd0);
 
     // batch 종료 시 bias 주소 증가
-    assign next_batch = is_conv && (c_state == 3'd5);
+    assign next_batch = is_conv && (c_state == 3'd6);
 
     assign conv_ch_idx = ch_cnt;
 
     // 마지막 input channel의 마지막 kernel row에서만 post-process 허용
     assign conv_final_pass =
         is_conv &&
-        (c_state == 3'd4) &&
+        (c_state == 3'd5) &&
         last_stage &&
         last_ch;
 
-    // layer done은 c_state 5의 마지막 batch에서만 1클럭 pulse
+    // layer done은 c_state 6의 마지막 batch에서만 1클럭 pulse
     assign conv_layer_done =
         is_conv &&
-        (c_state == 3'd5) &&
+        (c_state == 3'd6) &&
         last_batch;
 
     // =========================================================
