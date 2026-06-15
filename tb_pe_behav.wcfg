@@ -11,17 +11,22 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="111.720367 us"></ZoomStartTime>
-      <ZoomEndTime time="270.820368 us"></ZoomEndTime>
-      <Cursor1Time time="144.905000 us"></Cursor1Time>
+      <ZoomStartTime time="264,035.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="265,393.001 ns"></ZoomEndTime>
+      <Cursor1Time time="264,985.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+      <NameColumnWidth column_width="182"></NameColumnWidth>
+      <ValueColumnWidth column_width="59"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="43" />
    <wave_markers>
+      <marker time="159067000" label="" />
+      <marker time="169715000" label="" />
+      <marker time="180364000" label="" />
+      <marker time="191015200" label="" />
       <marker time="148485000" label="" />
+      <marker time="201665000" label="" />
    </wave_markers>
    <wvobject fp_name="group89" type="group">
       <obj_property name="label">Scope: tb_lenet5_top</obj_property>

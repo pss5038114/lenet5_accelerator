@@ -119,6 +119,10 @@ module lenet5_top #(
 
     wire [BW_A-1:0] conv_din_0, conv_din_1, conv_din_2, conv_din_3;
     wire [BW_A-1:0] conv_din_4, conv_din_5, conv_din_6, conv_din_7;
+    
+        // post-process column skew를 정렬한 뒤 UBRAM에 쓰기 위한 aligned data
+    wire [BW_A-1:0] conv_din_aligned_0, conv_din_aligned_1, conv_din_aligned_2, conv_din_aligned_3;
+    wire [BW_A-1:0] conv_din_aligned_4, conv_din_aligned_5, conv_din_aligned_6, conv_din_aligned_7;
 
     wire [BW_A-1:0] fc_din_0, fc_din_1, fc_din_2, fc_din_3;
     wire [BW_A-1:0] fc_din_4, fc_din_5, fc_din_6, fc_din_7;
@@ -206,8 +210,10 @@ module lenet5_top #(
         .dma_din_4(dma_img_din_4), .dma_din_5(dma_img_din_5), .dma_din_6(dma_img_din_6), .dma_din_7(dma_img_din_7),
 
         .conv_we(conv_we),
-        .conv_din_0(conv_din_0), .conv_din_1(conv_din_1), .conv_din_2(conv_din_2), .conv_din_3(conv_din_3),
-        .conv_din_4(conv_din_4), .conv_din_5(conv_din_5), .conv_din_6(conv_din_6), .conv_din_7(conv_din_7),
+        .conv_din_0(conv_din_aligned_0), .conv_din_1(conv_din_aligned_1),
+        .conv_din_2(conv_din_aligned_2), .conv_din_3(conv_din_aligned_3),
+        .conv_din_4(conv_din_aligned_4), .conv_din_5(conv_din_aligned_5),
+        .conv_din_6(conv_din_aligned_6), .conv_din_7(conv_din_aligned_7),
 
         .fc_we(fc_we),
         .fc_din_0(fc_din_0), .fc_din_1(fc_din_1), .fc_din_2(fc_din_2), .fc_din_3(fc_din_3),
@@ -599,6 +605,108 @@ module lenet5_top #(
         .psum_in(pe_out_7), .valid_in(pe_valid_7 && conv_final_pass),
         .pool_out(conv_din_7), .valid_out(pool_valid_arr[7])
     );
+    
+    // =========================================================
+    // Conv post-process output alignment
+    //
+    // PE array는 column 방향으로 iact/valid를 1클럭씩 전달하므로
+    // pool_valid_arr[0]~[7]도 column별로 skew가 생긴다.
+    //
+    // UBRAM은 8개 bank가 하나의 공통 write address를 공유하므로,
+    // 같은 output coordinate의 Column0~7 결과를 같은 클럭에 맞춰서 써야 한다.
+    //
+    // 가장 늦게 나오는 Column7을 기준으로:
+    //   Column0: 7clk delay
+    //   Column1: 6clk delay
+    //   Column2: 5clk delay
+    //   Column3: 4clk delay
+    //   Column4: 3clk delay
+    //   Column5: 2clk delay
+    //   Column6: 1clk delay
+    //   Column7: 0clk delay
+    // =========================================================
+
+    reg [BW_A-1:0] conv_din_0_d1, conv_din_0_d2, conv_din_0_d3, conv_din_0_d4;
+    reg [BW_A-1:0] conv_din_0_d5, conv_din_0_d6, conv_din_0_d7;
+
+    reg [BW_A-1:0] conv_din_1_d1, conv_din_1_d2, conv_din_1_d3;
+    reg [BW_A-1:0] conv_din_1_d4, conv_din_1_d5, conv_din_1_d6;
+
+    reg [BW_A-1:0] conv_din_2_d1, conv_din_2_d2, conv_din_2_d3;
+    reg [BW_A-1:0] conv_din_2_d4, conv_din_2_d5;
+
+    reg [BW_A-1:0] conv_din_3_d1, conv_din_3_d2, conv_din_3_d3, conv_din_3_d4;
+
+    reg [BW_A-1:0] conv_din_4_d1, conv_din_4_d2, conv_din_4_d3;
+
+    reg [BW_A-1:0] conv_din_5_d1, conv_din_5_d2;
+
+    reg [BW_A-1:0] conv_din_6_d1;
+
+    always @(posedge clk or negedge reset_n) begin
+        if (!reset_n) begin
+            conv_din_0_d1 <= 0; conv_din_0_d2 <= 0; conv_din_0_d3 <= 0; conv_din_0_d4 <= 0;
+            conv_din_0_d5 <= 0; conv_din_0_d6 <= 0; conv_din_0_d7 <= 0;
+
+            conv_din_1_d1 <= 0; conv_din_1_d2 <= 0; conv_din_1_d3 <= 0;
+            conv_din_1_d4 <= 0; conv_din_1_d5 <= 0; conv_din_1_d6 <= 0;
+
+            conv_din_2_d1 <= 0; conv_din_2_d2 <= 0; conv_din_2_d3 <= 0;
+            conv_din_2_d4 <= 0; conv_din_2_d5 <= 0;
+
+            conv_din_3_d1 <= 0; conv_din_3_d2 <= 0; conv_din_3_d3 <= 0; conv_din_3_d4 <= 0;
+
+            conv_din_4_d1 <= 0; conv_din_4_d2 <= 0; conv_din_4_d3 <= 0;
+
+            conv_din_5_d1 <= 0; conv_din_5_d2 <= 0;
+
+            conv_din_6_d1 <= 0;
+        end else begin
+            conv_din_0_d1 <= conv_din_0;
+            conv_din_0_d2 <= conv_din_0_d1;
+            conv_din_0_d3 <= conv_din_0_d2;
+            conv_din_0_d4 <= conv_din_0_d3;
+            conv_din_0_d5 <= conv_din_0_d4;
+            conv_din_0_d6 <= conv_din_0_d5;
+            conv_din_0_d7 <= conv_din_0_d6;
+
+            conv_din_1_d1 <= conv_din_1;
+            conv_din_1_d2 <= conv_din_1_d1;
+            conv_din_1_d3 <= conv_din_1_d2;
+            conv_din_1_d4 <= conv_din_1_d3;
+            conv_din_1_d5 <= conv_din_1_d4;
+            conv_din_1_d6 <= conv_din_1_d5;
+
+            conv_din_2_d1 <= conv_din_2;
+            conv_din_2_d2 <= conv_din_2_d1;
+            conv_din_2_d3 <= conv_din_2_d2;
+            conv_din_2_d4 <= conv_din_2_d3;
+            conv_din_2_d5 <= conv_din_2_d4;
+
+            conv_din_3_d1 <= conv_din_3;
+            conv_din_3_d2 <= conv_din_3_d1;
+            conv_din_3_d3 <= conv_din_3_d2;
+            conv_din_3_d4 <= conv_din_3_d3;
+
+            conv_din_4_d1 <= conv_din_4;
+            conv_din_4_d2 <= conv_din_4_d1;
+            conv_din_4_d3 <= conv_din_4_d2;
+
+            conv_din_5_d1 <= conv_din_5;
+            conv_din_5_d2 <= conv_din_5_d1;
+
+            conv_din_6_d1 <= conv_din_6;
+        end
+    end
+
+    assign conv_din_aligned_0 = conv_din_0_d7;
+    assign conv_din_aligned_1 = conv_din_1_d6;
+    assign conv_din_aligned_2 = conv_din_2_d5;
+    assign conv_din_aligned_3 = conv_din_3_d4;
+    assign conv_din_aligned_4 = conv_din_4_d3;
+    assign conv_din_aligned_5 = conv_din_5_d2;
+    assign conv_din_aligned_6 = conv_din_6_d1;
+    assign conv_din_aligned_7 = conv_din_7;
 
     // Conv writeback address
     // Conv1 -> Conv2로 넘어갈 때 mode_select는 계속 CONV이므로 current_state 변화로도 reset
@@ -621,12 +729,15 @@ module lenet5_top #(
             conv_addr_w_reg <= 12'd0;
         end else if (conv_layer_changed) begin
             conv_addr_w_reg <= 12'd0;
-        end else if (pool_valid_arr[0]) begin
+        end else if (pool_valid_arr[7]) begin
             conv_addr_w_reg <= conv_addr_w_reg + 12'd1;
         end
     end
 
     assign conv_addr_w = conv_addr_w_reg;
-    assign conv_we = {8{pool_valid_arr[0]}};
+
+    // Column0~7 post-process output을 Column7 시점으로 정렬했으므로
+    // UBRAM write도 가장 늦은 pool_valid_arr[7] 기준으로 수행한다.
+    assign conv_we = {8{pool_valid_arr[7]}};
 
 endmodule
