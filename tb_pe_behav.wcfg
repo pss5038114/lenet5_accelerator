@@ -11,9 +11,9 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="52,301.800 ns"></ZoomStartTime>
-      <ZoomEndTime time="52,981.301 ns"></ZoomEndTime>
-      <Cursor1Time time="52,445.300 ns"></Cursor1Time>
+      <ZoomStartTime time="73.065000 us"></ZoomStartTime>
+      <ZoomEndTime time="141.015001 us"></ZoomEndTime>
+      <Cursor1Time time="97.365000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="182"></NameColumnWidth>
@@ -221,6 +221,7 @@
    <wvobject fp_name="group104" type="group">
       <obj_property name="label">Scope: u_fc_module/u_core</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_lenet5_top/uut/u_fc_module/u_core/start_node" type="logic">
          <obj_property name="ElementShortName">start_node</obj_property>
          <obj_property name="ObjectShortName">start_node</obj_property>
@@ -252,7 +253,6 @@
    <wvobject fp_name="group414" type="group">
       <obj_property name="label">Weight Buffer</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_lenet5_top/uut/u_weight_buf/bram_w_0" type="array">
          <obj_property name="ElementShortName">bram_w_0[7:0]</obj_property>
          <obj_property name="ObjectShortName">bram_w_0[7:0]</obj_property>
