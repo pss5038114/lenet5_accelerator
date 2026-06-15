@@ -11,12 +11,12 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="98,964.500 ns"></ZoomStartTime>
-      <ZoomEndTime time="99,758.001 ns"></ZoomEndTime>
-      <Cursor1Time time="99,415.000 ns"></Cursor1Time>
+      <ZoomStartTime time="117,828.885 ns"></ZoomStartTime>
+      <ZoomEndTime time="118,102.086 ns"></ZoomEndTime>
+      <Cursor1Time time="117,974.485 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="179"></NameColumnWidth>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="43" />
@@ -178,14 +178,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_1" type="array">
          <obj_property name="ElementShortName">top_in_1[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_1[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_1" type="array">
          <obj_property name="ElementShortName">bottom_out_1[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_1[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#FFD700</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
@@ -234,14 +234,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_2" type="array">
          <obj_property name="ElementShortName">top_in_2[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_2[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_2" type="array">
          <obj_property name="ElementShortName">bottom_out_2[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_2[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#FFD700</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
@@ -290,14 +290,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_3" type="array">
          <obj_property name="ElementShortName">top_in_3[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_3[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_3" type="array">
          <obj_property name="ElementShortName">bottom_out_3[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_3[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#FFD700</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
@@ -346,14 +346,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_4" type="array">
          <obj_property name="ElementShortName">top_in_4[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_4[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_4" type="array">
          <obj_property name="ElementShortName">bottom_out_4[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_4[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#FFD700</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
@@ -402,14 +402,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_5" type="array">
          <obj_property name="ElementShortName">top_in_5[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_5[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_5" type="array">
          <obj_property name="ElementShortName">bottom_out_5[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_5[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#FFD700</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
@@ -458,14 +458,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_6" type="array">
          <obj_property name="ElementShortName">top_in_6[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_6[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_6" type="array">
          <obj_property name="ElementShortName">bottom_out_6[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_6[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#FFD700</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
@@ -514,14 +514,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_7" type="array">
          <obj_property name="ElementShortName">top_in_7[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_7[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#00FFFF</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_7" type="array">
          <obj_property name="ElementShortName">bottom_out_7[31:0]</obj_property>
          <obj_property name="ObjectShortName">bottom_out_7[31:0]</obj_property>
-         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
          <obj_property name="CustomSignalColor">#FFD700</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>

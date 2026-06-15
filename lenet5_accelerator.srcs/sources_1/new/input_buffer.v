@@ -32,8 +32,9 @@ module input_buffer #(
 
     assign rd_addr = current_addr;
 
-    // master_valid_out보다 1클럭 빠른 pre-valid
-    assign psum_prefetch_valid = running && (col_cnt < valid_width);
+    // master_valid_out보다 1클럭 빠른 psum prefetch valid
+    // running && (col_cnt < valid_width)는 너무 빨라서 사용하지 않음.
+    assign psum_prefetch_valid = valid_pipe;
 
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
