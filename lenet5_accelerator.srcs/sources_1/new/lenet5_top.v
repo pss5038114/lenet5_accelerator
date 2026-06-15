@@ -399,6 +399,9 @@ module lenet5_top #(
     wire [BW_A-1:0] buf_iact_out;
     wire buf_master_valid;
 
+    // buf_master_valid보다 1클럭 빠른 psum read address advance 신호
+    wire buf_psum_prefetch_valid;
+
     wire [BW_P-1:0] pe_top_in_0, pe_top_in_1, pe_top_in_2, pe_top_in_3;
     wire [BW_P-1:0] pe_top_in_4, pe_top_in_5, pe_top_in_6, pe_top_in_7;
 
@@ -413,15 +416,27 @@ module lenet5_top #(
 
     reg [9:0] out_bram_addr_r;
     reg [9:0] out_bram_addr_w;
-
+    // =========================================================
+    // output_bram read address control
+    //
+    // output_bram은 READ_LATENCY=1이므로,
+    // psum을 PE의 top_in으로 master_valid와 같은 클럭에 넣으려면
+    // read address는 master_valid보다 1클럭 먼저 움직여야 한다.
+    //
+    // 따라서 out_bram_addr_r는 buf_master_valid가 아니라
+    // input_buffer에서 만든 buf_psum_prefetch_valid로 증가시킨다.
+    // =========================================================
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
             out_bram_addr_r <= 10'd0;
         end else if (mode_select == 2'd1) begin
-            if (start)
+            // weight load 구간과 start pulse에서 미리 addr0을 걸어둔다.
+            // Kernel 2 이상에서 psum addr0이 첫 master_valid에 맞춰 나오게 하기 위함.
+            if ((opcode == 2'd1) || start) begin
                 out_bram_addr_r <= 10'd0;
-            else if (buf_master_valid)
+            end else if (buf_psum_prefetch_valid) begin
                 out_bram_addr_r <= out_bram_addr_r + 10'd1;
+            end
         end else begin
             out_bram_addr_r <= 10'd0;
         end
@@ -465,7 +480,10 @@ module lenet5_top #(
         .rd_addr(buf_rd_addr),
         .rd_data(conv_rd_data),
         .iact_out(buf_iact_out),
-        .master_valid_out(buf_master_valid)
+        .master_valid_out(buf_master_valid),
+
+        // output_bram psum read address를 1클럭 먼저 증가시키는 신호
+        .psum_prefetch_valid(buf_psum_prefetch_valid)
     );
 
     top_input_router u_top_router (
