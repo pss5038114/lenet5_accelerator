@@ -342,21 +342,25 @@ module lenet5_top #(
     fc_module_top u_fc_module (
         .clk(clk),
         .reset_n(reset_n),
-
+    
         .start_node(start_node),
         .valid_in(valid_in),
         .end_node(end_node),
-
+    
+        // FC1, FC2에서는 ReLU 적용
+        // FC3(current_state == 3'd5)에서는 ReLU 미적용
+        .relu_en(current_state != 3'd5),
+    
         .iact_0(read_out_0), .iact_1(read_out_1), .iact_2(read_out_2), .iact_3(read_out_3),
         .iact_4(read_out_4), .iact_5(read_out_5), .iact_6(read_out_6), .iact_7(read_out_7),
-
+    
         .w_0(w_dout_0), .w_1(w_dout_1), .w_2(w_dout_2), .w_3(w_dout_3),
         .w_4(w_dout_4), .w_5(w_dout_5), .w_6(w_dout_6), .w_7(w_dout_7),
-
+    
         .bias(fc_selected_bias),
-
+    
         .fc_we(fc_we),
-
+    
         .fc_din_0(fc_din_0), .fc_din_1(fc_din_1), .fc_din_2(fc_din_2), .fc_din_3(fc_din_3),
         .fc_din_4(fc_din_4), .fc_din_5(fc_din_5), .fc_din_6(fc_din_6), .fc_din_7(fc_din_7)
     );
