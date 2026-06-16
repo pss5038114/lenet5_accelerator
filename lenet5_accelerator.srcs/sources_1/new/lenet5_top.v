@@ -414,6 +414,10 @@ module lenet5_top #(
     wire [BW_P-1:0] out_bram_dout_0, out_bram_dout_1, out_bram_dout_2, out_bram_dout_3;
     wire [BW_P-1:0] out_bram_dout_4, out_bram_dout_5, out_bram_dout_6, out_bram_dout_7;
 
+    // Column 방향 PE valid/iact skew에 맞춘 psum top_in
+    wire [BW_P-1:0] psum_top_0, psum_top_1, psum_top_2, psum_top_3;
+    wire [BW_P-1:0] psum_top_4, psum_top_5, psum_top_6, psum_top_7;
+
     wire [BW_P-1:0] pe_out_0, pe_out_1, pe_out_2, pe_out_3;
     wire [BW_P-1:0] pe_out_4, pe_out_5, pe_out_6, pe_out_7;
 
@@ -505,8 +509,8 @@ module lenet5_top #(
         .b_0(b_dout_0), .b_1(b_dout_1), .b_2(b_dout_2), .b_3(b_dout_3),
         .b_4(b_dout_4), .b_5(b_dout_5), .b_6(b_dout_6), .b_7(b_dout_7),
 
-        .p_0(out_bram_dout_0), .p_1(out_bram_dout_1), .p_2(out_bram_dout_2), .p_3(out_bram_dout_3),
-        .p_4(out_bram_dout_4), .p_5(out_bram_dout_5), .p_6(out_bram_dout_6), .p_7(out_bram_dout_7),
+        .p_0(psum_top_0), .p_1(psum_top_1), .p_2(psum_top_2), .p_3(psum_top_3),
+        .p_4(psum_top_4), .p_5(psum_top_5), .p_6(psum_top_6), .p_7(psum_top_7),
 
         .top_in_0(pe_top_in_0), .top_in_1(pe_top_in_1), .top_in_2(pe_top_in_2), .top_in_3(pe_top_in_3),
         .top_in_4(pe_top_in_4), .top_in_5(pe_top_in_5), .top_in_6(pe_top_in_6), .top_in_7(pe_top_in_7)
@@ -554,6 +558,121 @@ module lenet5_top #(
         .dout_0(out_bram_dout_0), .dout_1(out_bram_dout_1), .dout_2(out_bram_dout_2), .dout_3(out_bram_dout_3),
         .dout_4(out_bram_dout_4), .dout_5(out_bram_dout_5), .dout_6(out_bram_dout_6), .dout_7(out_bram_dout_7)
     );
+    
+        // =========================================================
+    // PSum top_in column-skew alignment
+    //
+    // PE array는 column 방향으로 iact/valid가 1클럭씩 전달된다.
+    // 따라서 output_bram에서 읽은 psum도 column 번호만큼 delay해서
+    // 각 column의 실제 valid_in 시점에 top_in으로 들어가야 한다.
+    //
+    // Column0: delay 0
+    // Column1: delay 1
+    // Column2: delay 2
+    // ...
+    // Column7: delay 7
+    //
+    // bias pass(use_bias=1)는 top_input_router가 bias를 선택하므로
+    // 여기 delay line은 psum pass에서만 의미가 있다.
+    // =========================================================
+
+    reg [BW_P-1:0] psum_1_d1;
+
+    reg [BW_P-1:0] psum_2_d1, psum_2_d2;
+
+    reg [BW_P-1:0] psum_3_d1, psum_3_d2, psum_3_d3;
+
+    reg [BW_P-1:0] psum_4_d1, psum_4_d2, psum_4_d3, psum_4_d4;
+
+    reg [BW_P-1:0] psum_5_d1, psum_5_d2, psum_5_d3, psum_5_d4, psum_5_d5;
+
+    reg [BW_P-1:0] psum_6_d1, psum_6_d2, psum_6_d3, psum_6_d4, psum_6_d5, psum_6_d6;
+
+    reg [BW_P-1:0] psum_7_d1, psum_7_d2, psum_7_d3, psum_7_d4;
+    reg [BW_P-1:0] psum_7_d5, psum_7_d6, psum_7_d7;
+
+    wire psum_delay_active =
+        (mode_select == 2'd1) &&
+        (opcode == 2'd2) &&
+        (!use_bias);
+
+    always @(posedge clk or negedge reset_n) begin
+        if (!reset_n) begin
+            psum_1_d1 <= 0;
+
+            psum_2_d1 <= 0; psum_2_d2 <= 0;
+
+            psum_3_d1 <= 0; psum_3_d2 <= 0; psum_3_d3 <= 0;
+
+            psum_4_d1 <= 0; psum_4_d2 <= 0; psum_4_d3 <= 0; psum_4_d4 <= 0;
+
+            psum_5_d1 <= 0; psum_5_d2 <= 0; psum_5_d3 <= 0; psum_5_d4 <= 0; psum_5_d5 <= 0;
+
+            psum_6_d1 <= 0; psum_6_d2 <= 0; psum_6_d3 <= 0; psum_6_d4 <= 0; psum_6_d5 <= 0; psum_6_d6 <= 0;
+
+            psum_7_d1 <= 0; psum_7_d2 <= 0; psum_7_d3 <= 0; psum_7_d4 <= 0;
+            psum_7_d5 <= 0; psum_7_d6 <= 0; psum_7_d7 <= 0;
+        end else if (!psum_delay_active || start) begin
+            psum_1_d1 <= 0;
+
+            psum_2_d1 <= 0; psum_2_d2 <= 0;
+
+            psum_3_d1 <= 0; psum_3_d2 <= 0; psum_3_d3 <= 0;
+
+            psum_4_d1 <= 0; psum_4_d2 <= 0; psum_4_d3 <= 0; psum_4_d4 <= 0;
+
+            psum_5_d1 <= 0; psum_5_d2 <= 0; psum_5_d3 <= 0; psum_5_d4 <= 0; psum_5_d5 <= 0;
+
+            psum_6_d1 <= 0; psum_6_d2 <= 0; psum_6_d3 <= 0; psum_6_d4 <= 0; psum_6_d5 <= 0; psum_6_d6 <= 0;
+
+            psum_7_d1 <= 0; psum_7_d2 <= 0; psum_7_d3 <= 0; psum_7_d4 <= 0;
+            psum_7_d5 <= 0; psum_7_d6 <= 0; psum_7_d7 <= 0;
+        end else begin
+            psum_1_d1 <= out_bram_dout_1;
+
+            psum_2_d1 <= out_bram_dout_2;
+            psum_2_d2 <= psum_2_d1;
+
+            psum_3_d1 <= out_bram_dout_3;
+            psum_3_d2 <= psum_3_d1;
+            psum_3_d3 <= psum_3_d2;
+
+            psum_4_d1 <= out_bram_dout_4;
+            psum_4_d2 <= psum_4_d1;
+            psum_4_d3 <= psum_4_d2;
+            psum_4_d4 <= psum_4_d3;
+
+            psum_5_d1 <= out_bram_dout_5;
+            psum_5_d2 <= psum_5_d1;
+            psum_5_d3 <= psum_5_d2;
+            psum_5_d4 <= psum_5_d3;
+            psum_5_d5 <= psum_5_d4;
+
+            psum_6_d1 <= out_bram_dout_6;
+            psum_6_d2 <= psum_6_d1;
+            psum_6_d3 <= psum_6_d2;
+            psum_6_d4 <= psum_6_d3;
+            psum_6_d5 <= psum_6_d4;
+            psum_6_d6 <= psum_6_d5;
+
+            psum_7_d1 <= out_bram_dout_7;
+            psum_7_d2 <= psum_7_d1;
+            psum_7_d3 <= psum_7_d2;
+            psum_7_d4 <= psum_7_d3;
+            psum_7_d5 <= psum_7_d4;
+            psum_7_d6 <= psum_7_d5;
+            psum_7_d7 <= psum_7_d6;
+        end
+    end
+
+    assign psum_top_0 = out_bram_dout_0;
+    assign psum_top_1 = psum_1_d1;
+    assign psum_top_2 = psum_2_d2;
+    assign psum_top_3 = psum_3_d3;
+    assign psum_top_4 = psum_4_d4;
+    assign psum_top_5 = psum_5_d5;
+    assign psum_top_6 = psum_6_d6;
+    assign psum_top_7 = psum_7_d7;
 
     // post-process는 마지막 누적 pass에서만 작동
     wire [7:0] pool_valid_arr;

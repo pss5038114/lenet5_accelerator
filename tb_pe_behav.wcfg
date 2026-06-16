@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="264,035.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="265,393.001 ns"></ZoomEndTime>
-      <Cursor1Time time="264,985.000 ns"></Cursor1Time>
+      <ZoomStartTime time="343,364.166 ns"></ZoomStartTime>
+      <ZoomEndTime time="343,761.167 ns"></ZoomEndTime>
+      <Cursor1Time time="343,695.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="182"></NameColumnWidth>
-      <ValueColumnWidth column_width="59"></ValueColumnWidth>
+      <NameColumnWidth column_width="179"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="43" />
+   <WVObjectSize size="44" />
    <wave_markers>
       <marker time="159067000" label="" />
       <marker time="169715000" label="" />
@@ -127,6 +127,14 @@
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[0].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[0].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_0" type="array">
          <obj_property name="ElementShortName">top_in_0[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_0[31:0]</obj_property>
@@ -182,6 +190,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[1].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[1].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_1" type="array">
          <obj_property name="ElementShortName">top_in_1[31:0]</obj_property>
@@ -239,6 +255,14 @@
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[2].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[2].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_2" type="array">
          <obj_property name="ElementShortName">top_in_2[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_2[31:0]</obj_property>
@@ -294,6 +318,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[3].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[3].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_3" type="array">
          <obj_property name="ElementShortName">top_in_3[31:0]</obj_property>
@@ -351,6 +383,14 @@
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[4].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[4].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_4" type="array">
          <obj_property name="ElementShortName">top_in_4[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_4[31:0]</obj_property>
@@ -406,6 +446,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[5].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[5].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_5" type="array">
          <obj_property name="ElementShortName">top_in_5[31:0]</obj_property>
@@ -463,6 +511,14 @@
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[6].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[6].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_6" type="array">
          <obj_property name="ElementShortName">top_in_6[31:0]</obj_property>
          <obj_property name="ObjectShortName">top_in_6[31:0]</obj_property>
@@ -518,6 +574,14 @@
       <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[7].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[7].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_7" type="array">
          <obj_property name="ElementShortName">top_in_7[31:0]</obj_property>
@@ -751,5 +815,11 @@
    <wvobject fp_name="/tb_lenet5_top/uut/fc_addr_w" type="array">
       <obj_property name="ElementShortName">fc_addr_w[11:0]</obj_property>
       <obj_property name="ObjectShortName">fc_addr_w[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/master_valid_in" type="logic">
+      <obj_property name="ElementShortName">master_valid_in</obj_property>
+      <obj_property name="ObjectShortName">master_valid_in</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
 </wave_config>
