@@ -319,7 +319,7 @@ module lenet5_ctrl (
     // =========================================================
     // FC Sub-FSM
     // =========================================================
-    reg [1:0] f_state;
+    reg [2:0] f_state;
     reg [7:0] node_cnt;
     reg [7:0] acc_cnt;
 
@@ -331,57 +331,78 @@ module lenet5_ctrl (
                               (current_state == FC2) ? 8'd15 :
                               (current_state == FC3) ? 8'd11 : 8'd0;
 
+    // f_state:
+    // 0 = layer/node 준비
+    // 1 = start_node
+    // 2 = accumulate valid_in
+    // 3 = end_node pulse
+    // 4 = drain 1: fc_core valid_out 준비
+    // 5 = drain 2: fc_we/writeback 관찰 가능
+    
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
-            f_state  <= 2'd0;
+            f_state  <= 3'd0;
             node_cnt <= 8'd0;
             acc_cnt  <= 8'd0;
         end else if (!is_fc) begin
-            f_state  <= 2'd0;
+            f_state  <= 3'd0;
             node_cnt <= 8'd0;
             acc_cnt  <= 8'd0;
         end else begin
             case (f_state)
-                2'd0: begin
-                    f_state <= 2'd1;
+                3'd0: begin
+                    f_state <= 3'd1;
                 end
-
-                2'd1: begin
-                    f_state <= 2'd2;
+    
+                3'd1: begin
+                    f_state <= 3'd2;
                 end
-
-                2'd2: begin
+    
+                3'd2: begin
                     if (acc_cnt == target_acc - 1) begin
                         acc_cnt <= 8'd0;
-                        f_state <= 2'd3;
+                        f_state <= 3'd3;
                     end else begin
                         acc_cnt <= acc_cnt + 8'd1;
                     end
                 end
-
-                2'd3: begin
+    
+                // end_node 1클럭
+                3'd3: begin
+                    f_state <= 3'd4;
+                end
+    
+                // fc_core valid_out이 뜨는 구간
+                3'd4: begin
+                    f_state <= 3'd5;
+                end
+    
+                // fc_we가 실제 write/capture에 보이는 구간
+                3'd5: begin
                     if (node_cnt == target_nodes - 1) begin
                         node_cnt <= 8'd0;
-                        f_state  <= 2'd0;
+                        f_state  <= 3'd0;
                     end else begin
                         node_cnt <= node_cnt + 8'd1;
-                        f_state  <= 2'd1;
+                        f_state  <= 3'd1;
                     end
                 end
-
+    
                 default: begin
-                    f_state <= 2'd0;
+                    f_state  <= 3'd0;
+                    acc_cnt  <= 8'd0;
                 end
             endcase
         end
     end
-
-    assign start_node = is_fc && (f_state == 2'd1);
-    assign valid_in   = is_fc && (f_state == 2'd2);
-    assign end_node   = is_fc && (f_state == 2'd3);
-
+    
+    assign start_node = is_fc && (f_state == 3'd1);
+    assign valid_in   = is_fc && (f_state == 3'd2);
+    assign end_node   = is_fc && (f_state == 3'd3);
+    
+    // layer done은 fc_we/writeback이 끝나는 drain2에서만 발생
     assign fc_layer_done = is_fc &&
-                           (f_state == 2'd3) &&
+                           (f_state == 3'd5) &&
                            (node_cnt == target_nodes - 1);
 
 endmodule
