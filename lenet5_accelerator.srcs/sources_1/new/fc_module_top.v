@@ -24,6 +24,8 @@ module fc_module_top #(
 
     input wire [BW_P-1:0] bias,
     
+    input wire layer_start,
+    
     output reg [7:0] fc_we,
 
     output wire [BW_A-1:0] fc_din_0, fc_din_1, fc_din_2, fc_din_3, 
@@ -93,7 +95,10 @@ module fc_module_top #(
             bank_idx <= 3'd0;
             fc_we <= 8'd0;
         end else begin
-            if (core_valid) begin
+            if (layer_start) begin
+                bank_idx <= 3'd0;
+                fc_we <= 8'd0;
+            end else if (core_valid) begin
                 fc_we <= (8'd1 << bank_idx);
                 bank_idx <= bank_idx + 3'd1;
             end else begin

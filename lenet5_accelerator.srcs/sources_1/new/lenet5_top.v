@@ -160,10 +160,21 @@ module lenet5_top #(
         else
             ubram_addr_w = 12'd0;
     end
+    
+    reg [2:0] prev_fc_state;
+
+    always @(posedge clk or negedge reset_n) begin
+        if (!reset_n)
+            prev_fc_state <= 3'd0;
+        else
+            prev_fc_state <= current_state;
+    end
+
+    wire fc_layer_changed =
+        (mode_select == 2'd2) &&
+        (current_state != prev_fc_state);
 
     // FC address control
-    // FC 입력은 각 노드마다 addr 0부터 다시 읽음
-    // FC 출력은 8-bank를 다 채운 뒤 addr 증가
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
             fc_addr_r      <= 12'd0;
@@ -171,12 +182,19 @@ module lenet5_top #(
             fc_write_phase <= 3'd0;
         end else begin
             if (mode_select == 2'd2) begin
+
+                // FC1 -> FC2, FC2 -> FC3 진입 시 write address를 새 layer 기준으로 reset
+                if (fc_layer_changed) begin
+                    fc_addr_w      <= 12'd0;
+                    fc_write_phase <= 3'd0;
+                end
+
                 if (start_node)
                     fc_addr_r <= 12'd0;
                 else if (valid_in)
                     fc_addr_r <= fc_addr_r + 12'd1;
 
-                if (fc_write_fire) begin
+                if (!fc_layer_changed && fc_write_fire) begin
                     if (fc_write_phase == 3'd7) begin
                         fc_write_phase <= 3'd0;
                         fc_addr_w      <= fc_addr_w + 12'd1;
@@ -380,6 +398,7 @@ module lenet5_top #(
         .start_node(start_node),
         .valid_in(valid_in),
         .end_node(end_node),
+        .layer_start(fc_layer_changed),
     
         // FC1, FC2에서는 ReLU 적용
         // FC3(current_state == 3'd5)에서는 ReLU 미적용

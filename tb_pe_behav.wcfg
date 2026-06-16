@@ -11,21 +11,17 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="159,139.467 ns"></ZoomStartTime>
-      <ZoomEndTime time="159,412.668 ns"></ZoomEndTime>
-      <Cursor1Time time="159,065.000 ns"></Cursor1Time>
+      <ZoomStartTime time="343,634.584 ns"></ZoomStartTime>
+      <ZoomEndTime time="343,703.085 ns"></ZoomEndTime>
+      <Cursor1Time time="343,581.634 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <NameColumnWidth column_width="171"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="44" />
+   <WVObjectSize size="45" />
    <wave_markers>
-      <marker time="169715000" label="" />
-      <marker time="180364000" label="" />
-      <marker time="191015200" label="" />
-      <marker time="201665000" label="" />
-      <marker time="159065000" label="" />
+      <marker time="265585000" label="" />
    </wave_markers>
    <wvobject fp_name="group89" type="group">
       <obj_property name="label">Scope: tb_lenet5_top</obj_property>
@@ -694,6 +690,10 @@
    <wvobject type="divider" fp_name="divider89">
       <obj_property name="label">uut</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_pp_0/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_lenet5_top/uut/conv_ch_idx" type="array">
       <obj_property name="ElementShortName">conv_ch_idx[2:0]</obj_property>
