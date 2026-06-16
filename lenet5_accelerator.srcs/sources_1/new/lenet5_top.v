@@ -425,7 +425,8 @@ module lenet5_top #(
     wire pe_valid_4, pe_valid_5, pe_valid_6, pe_valid_7;
 
     reg [9:0] out_bram_addr_r;
-    reg [9:0] out_bram_addr_w;
+    reg [9:0] out_bram_addr_w_0, out_bram_addr_w_1, out_bram_addr_w_2, out_bram_addr_w_3;
+    reg [9:0] out_bram_addr_w_4, out_bram_addr_w_5, out_bram_addr_w_6, out_bram_addr_w_7;
     // =========================================================
     // output_bram read address control
     //
@@ -454,14 +455,43 @@ module lenet5_top #(
 
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
-            out_bram_addr_w <= 10'd0;
+            out_bram_addr_w_0 <= 10'd0;
+            out_bram_addr_w_1 <= 10'd0;
+            out_bram_addr_w_2 <= 10'd0;
+            out_bram_addr_w_3 <= 10'd0;
+            out_bram_addr_w_4 <= 10'd0;
+            out_bram_addr_w_5 <= 10'd0;
+            out_bram_addr_w_6 <= 10'd0;
+            out_bram_addr_w_7 <= 10'd0;
         end else if (mode_select == 2'd1) begin
-            if (start)
-                out_bram_addr_w <= 10'd0;
-            else if (pe_valid_0)
-                out_bram_addr_w <= out_bram_addr_w + 10'd1;
+            if (start) begin
+                out_bram_addr_w_0 <= 10'd0;
+                out_bram_addr_w_1 <= 10'd0;
+                out_bram_addr_w_2 <= 10'd0;
+                out_bram_addr_w_3 <= 10'd0;
+                out_bram_addr_w_4 <= 10'd0;
+                out_bram_addr_w_5 <= 10'd0;
+                out_bram_addr_w_6 <= 10'd0;
+                out_bram_addr_w_7 <= 10'd0;
+            end else begin
+                if (pe_valid_0) out_bram_addr_w_0 <= out_bram_addr_w_0 + 10'd1;
+                if (pe_valid_1) out_bram_addr_w_1 <= out_bram_addr_w_1 + 10'd1;
+                if (pe_valid_2) out_bram_addr_w_2 <= out_bram_addr_w_2 + 10'd1;
+                if (pe_valid_3) out_bram_addr_w_3 <= out_bram_addr_w_3 + 10'd1;
+                if (pe_valid_4) out_bram_addr_w_4 <= out_bram_addr_w_4 + 10'd1;
+                if (pe_valid_5) out_bram_addr_w_5 <= out_bram_addr_w_5 + 10'd1;
+                if (pe_valid_6) out_bram_addr_w_6 <= out_bram_addr_w_6 + 10'd1;
+                if (pe_valid_7) out_bram_addr_w_7 <= out_bram_addr_w_7 + 10'd1;
+            end
         end else begin
-            out_bram_addr_w <= 10'd0;
+            out_bram_addr_w_0 <= 10'd0;
+            out_bram_addr_w_1 <= 10'd0;
+            out_bram_addr_w_2 <= 10'd0;
+            out_bram_addr_w_3 <= 10'd0;
+            out_bram_addr_w_4 <= 10'd0;
+            out_bram_addr_w_5 <= 10'd0;
+            out_bram_addr_w_6 <= 10'd0;
+            out_bram_addr_w_7 <= 10'd0;
         end
     end
 
@@ -547,16 +577,31 @@ module lenet5_top #(
 
     output_bram_wrapper u_out_bram (
         .clk(clk),
-        .we_arr({8{pe_valid_0}}),
-        .addr_w(out_bram_addr_w),
-
+    
+        // 각 column의 PE valid에 맞춰 각 bank를 독립적으로 write
+        .we_arr({
+            pe_valid_7, pe_valid_6, pe_valid_5, pe_valid_4,
+            pe_valid_3, pe_valid_2, pe_valid_1, pe_valid_0
+        }),
+    
+        .addr_w_0(out_bram_addr_w_0),
+        .addr_w_1(out_bram_addr_w_1),
+        .addr_w_2(out_bram_addr_w_2),
+        .addr_w_3(out_bram_addr_w_3),
+        .addr_w_4(out_bram_addr_w_4),
+        .addr_w_5(out_bram_addr_w_5),
+        .addr_w_6(out_bram_addr_w_6),
+        .addr_w_7(out_bram_addr_w_7),
+    
         .din_0(pe_out_0), .din_1(pe_out_1), .din_2(pe_out_2), .din_3(pe_out_3),
         .din_4(pe_out_4), .din_5(pe_out_5), .din_6(pe_out_6), .din_7(pe_out_7),
-
+    
         .addr_r(out_bram_addr_r),
-
-        .dout_0(out_bram_dout_0), .dout_1(out_bram_dout_1), .dout_2(out_bram_dout_2), .dout_3(out_bram_dout_3),
-        .dout_4(out_bram_dout_4), .dout_5(out_bram_dout_5), .dout_6(out_bram_dout_6), .dout_7(out_bram_dout_7)
+    
+        .dout_0(out_bram_dout_0), .dout_1(out_bram_dout_1),
+        .dout_2(out_bram_dout_2), .dout_3(out_bram_dout_3),
+        .dout_4(out_bram_dout_4), .dout_5(out_bram_dout_5),
+        .dout_6(out_bram_dout_6), .dout_7(out_bram_dout_7)
     );
     
         // =========================================================
