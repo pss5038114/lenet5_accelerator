@@ -323,6 +323,11 @@ module lenet5_ctrl (
     reg [7:0] node_cnt;
     reg [7:0] acc_cnt;
 
+    // fc_core MAC pipeline latency:
+    // 마지막 valid_in이 들어간 뒤 acc_reg에 반영되기까지 4클럭 필요
+    reg [2:0] fc_pipe_drain_cnt;
+    localparam [2:0] FC_PIPE_LAT = 3'd4;
+
     wire [7:0] target_nodes = (current_state == FC1) ? 8'd120 :
                               (current_state == FC2) ? 8'd84  :
                               (current_state == FC3) ? 8'd10  : 8'd0;
@@ -333,52 +338,98 @@ module lenet5_ctrl (
 
     // f_state:
     // 0 = layer/node 준비
-    // 1 = start_node
-    // 2 = accumulate valid_in
-    // 3 = end_node pulse
-    // 4 = drain 1: fc_core valid_out 준비
-    // 5 = drain 2: fc_we/writeback 관찰 가능
-    
+    // 1 = start_node, acc_reg <= bias
+    // 2 = valid_in, input/weight stream feeding
+    // 3 = fc_core pipeline drain, 마지막 MAC이 acc_reg에 반영될 때까지 대기
+    // 4 = end_node pulse, quantization
+    // 5 = fc_core valid_out 준비
+    // 6 = fc_we/writeback 관찰 가능, 다음 node/layer로 이동
+
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
-            f_state  <= 3'd0;
-            node_cnt <= 8'd0;
-            acc_cnt  <= 8'd0;
+            f_state           <= 3'd0;
+            node_cnt          <= 8'd0;
+            acc_cnt           <= 8'd0;
+            fc_pipe_drain_cnt <= 3'd0;
         end else if (!is_fc) begin
-            f_state  <= 3'd0;
-            node_cnt <= 8'd0;
-            acc_cnt  <= 8'd0;
+            f_state           <= 3'd0;
+            node_cnt          <= 8'd0;
+            acc_cnt           <= 8'd0;
+            fc_pipe_drain_cnt <= 3'd0;
         end else begin
             case (f_state)
+                // -------------------------------------------------
+                // 0. 준비
+                // -------------------------------------------------
                 3'd0: begin
-                    f_state <= 3'd1;
+                    acc_cnt           <= 8'd0;
+                    fc_pipe_drain_cnt <= 3'd0;
+                    f_state           <= 3'd1;
                 end
-    
+
+                // -------------------------------------------------
+                // 1. start_node 1클럭
+                // -------------------------------------------------
                 3'd1: begin
-                    f_state <= 3'd2;
+                    acc_cnt           <= 8'd0;
+                    fc_pipe_drain_cnt <= 3'd0;
+                    f_state           <= 3'd2;
                 end
-    
+
+                // -------------------------------------------------
+                // 2. valid_in 구간
+                //
+                // 여기서 target_acc개의 8-lane 입력/weight 묶음을
+                // fc_core pipeline에 밀어 넣는다.
+                // -------------------------------------------------
                 3'd2: begin
                     if (acc_cnt == target_acc - 1) begin
-                        acc_cnt <= 8'd0;
-                        f_state <= 3'd3;
+                        acc_cnt           <= 8'd0;
+                        fc_pipe_drain_cnt <= 3'd0;
+                        f_state           <= 3'd3;
                     end else begin
                         acc_cnt <= acc_cnt + 8'd1;
                     end
                 end
-    
-                // end_node 1클럭
+
+                // -------------------------------------------------
+                // 3. pipeline drain
+                //
+                // 마지막 valid_in 이후:
+                //   +1: add1
+                //   +2: add2
+                //   +3: sum_tree_reg
+                //   +4: acc_reg update
+                //
+                // 따라서 4클럭 기다린 뒤 end_node를 준다.
+                // -------------------------------------------------
                 3'd3: begin
-                    f_state <= 3'd4;
+                    if (fc_pipe_drain_cnt == FC_PIPE_LAT - 1) begin
+                        fc_pipe_drain_cnt <= 3'd0;
+                        f_state           <= 3'd4;
+                    end else begin
+                        fc_pipe_drain_cnt <= fc_pipe_drain_cnt + 3'd1;
+                    end
                 end
-    
-                // fc_core valid_out이 뜨는 구간
+
+                // -------------------------------------------------
+                // 4. end_node 1클럭
+                // -------------------------------------------------
                 3'd4: begin
                     f_state <= 3'd5;
                 end
-    
-                // fc_we가 실제 write/capture에 보이는 구간
+
+                // -------------------------------------------------
+                // 5. fc_core valid_out이 뜨는 구간
+                // -------------------------------------------------
                 3'd5: begin
+                    f_state <= 3'd6;
+                end
+
+                // -------------------------------------------------
+                // 6. fc_we가 실제 write/capture에 보이는 구간
+                // -------------------------------------------------
+                3'd6: begin
                     if (node_cnt == target_nodes - 1) begin
                         node_cnt <= 8'd0;
                         f_state  <= 3'd0;
@@ -387,22 +438,23 @@ module lenet5_ctrl (
                         f_state  <= 3'd1;
                     end
                 end
-    
+
                 default: begin
-                    f_state  <= 3'd0;
-                    acc_cnt  <= 8'd0;
+                    f_state           <= 3'd0;
+                    acc_cnt           <= 8'd0;
+                    fc_pipe_drain_cnt <= 3'd0;
                 end
             endcase
         end
     end
-    
+
     assign start_node = is_fc && (f_state == 3'd1);
     assign valid_in   = is_fc && (f_state == 3'd2);
-    assign end_node   = is_fc && (f_state == 3'd3);
-    
-    // layer done은 fc_we/writeback이 끝나는 drain2에서만 발생
+    assign end_node   = is_fc && (f_state == 3'd4);
+
+    // layer done은 fc_we/writeback이 끝나는 state 6에서만 발생
     assign fc_layer_done = is_fc &&
-                           (f_state == 3'd5) &&
+                           (f_state == 3'd6) &&
                            (node_cnt == target_nodes - 1);
 
 endmodule

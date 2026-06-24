@@ -8,7 +8,7 @@ module fc_core #(
 )(
     input wire clk,
     input wire reset_n,
-    
+
     input wire start_node,
     input wire valid_in,
     input wire end_node,
@@ -17,7 +17,7 @@ module fc_core #(
     // FC1, FC2: 1
     // FC3: 0
     input wire relu_en,
-    
+
     input wire [BW_A-1:0] iact_0, iact_1, iact_2, iact_3,
     input wire [BW_A-1:0] iact_4, iact_5, iact_6, iact_7,
 
@@ -25,61 +25,131 @@ module fc_core #(
     input wire [BW_W-1:0] w_4, w_5, w_6, w_7,
 
     input wire [BW_P-1:0] bias,
-    
+
     output reg [BW_A-1:0] fc_out,
     output reg valid_out
 );
 
     // =========================================================
-    // 1. 8 parallel multipliers
+    // FC MAC Pipeline
+    //
+    // valid_in 기준 latency:
+    //   +0 cycle: mul_reg capture
+    //   +1 cycle: add1_reg capture
+    //   +2 cycle: add2_reg capture
+    //   +3 cycle: sum_tree_reg capture
+    //   +4 cycle: acc_reg update
+    //
+    // 따라서 controller는 마지막 valid_in 이후 4 cycle을 기다린 뒤
+    // end_node를 발생시켜야 한다.
     // =========================================================
-    wire signed [15:0] mul [0:7];
-    
-    assign mul[0] = $signed(iact_0) * $signed(w_0);
-    assign mul[1] = $signed(iact_1) * $signed(w_1);
-    assign mul[2] = $signed(iact_2) * $signed(w_2);
-    assign mul[3] = $signed(iact_3) * $signed(w_3);
-    assign mul[4] = $signed(iact_4) * $signed(w_4);
-    assign mul[5] = $signed(iact_5) * $signed(w_5);
-    assign mul[6] = $signed(iact_6) * $signed(w_6);
-    assign mul[7] = $signed(iact_7) * $signed(w_7);
 
-    // =========================================================
-    // 2. Adder tree
-    // =========================================================
-    wire signed [16:0] add_lvl1_0 = mul[0] + mul[1];
-    wire signed [16:0] add_lvl1_1 = mul[2] + mul[3];
-    wire signed [16:0] add_lvl1_2 = mul[4] + mul[5];
-    wire signed [16:0] add_lvl1_3 = mul[6] + mul[7];
+    reg signed [15:0] mul_reg_0, mul_reg_1, mul_reg_2, mul_reg_3;
+    reg signed [15:0] mul_reg_4, mul_reg_5, mul_reg_6, mul_reg_7;
 
-    wire signed [17:0] add_lvl2_0 = add_lvl1_0 + add_lvl1_1;
-    wire signed [17:0] add_lvl2_1 = add_lvl1_2 + add_lvl1_3;
+    reg signed [16:0] add1_reg_0, add1_reg_1, add1_reg_2, add1_reg_3;
 
-    wire signed [18:0] sum_tree = add_lvl2_0 + add_lvl2_1;
+    reg signed [17:0] add2_reg_0, add2_reg_1;
 
-    // =========================================================
-    // 3. Accumulator
-    // =========================================================
+    reg signed [18:0] sum_tree_reg;
+
+    reg mul_valid;
+    reg add1_valid;
+    reg add2_valid;
+    reg sum_valid;
+
     reg signed [BW_P-1:0] acc_reg;
 
+    wire signed [BW_P-1:0] sum_tree_ext =
+        {{(BW_P-19){sum_tree_reg[18]}}, sum_tree_reg};
+
+    // =========================================================
+    // 1. Pipelined MAC accumulation
+    // =========================================================
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
+            mul_reg_0 <= 0; mul_reg_1 <= 0; mul_reg_2 <= 0; mul_reg_3 <= 0;
+            mul_reg_4 <= 0; mul_reg_5 <= 0; mul_reg_6 <= 0; mul_reg_7 <= 0;
+
+            add1_reg_0 <= 0; add1_reg_1 <= 0; add1_reg_2 <= 0; add1_reg_3 <= 0;
+            add2_reg_0 <= 0; add2_reg_1 <= 0;
+            sum_tree_reg <= 0;
+
+            mul_valid  <= 1'b0;
+            add1_valid <= 1'b0;
+            add2_valid <= 1'b0;
+            sum_valid  <= 1'b0;
+
             acc_reg <= 0;
         end else if (start_node) begin
-            // node 시작 시 bias만 로드
-            // 첫 유효 데이터는 valid_in에서 누적
+            // node 시작 시 bias만 로드하고 pipeline valid를 비움
             acc_reg <= $signed(bias);
-        end else if (valid_in) begin
-            acc_reg <= acc_reg + sum_tree;
+
+            mul_valid  <= 1'b0;
+            add1_valid <= 1'b0;
+            add2_valid <= 1'b0;
+            sum_valid  <= 1'b0;
+        end else begin
+            // -------------------------
+            // Stage 0: 8 multipliers
+            // -------------------------
+            mul_valid <= valid_in;
+
+            if (valid_in) begin
+                mul_reg_0 <= $signed(iact_0) * $signed(w_0);
+                mul_reg_1 <= $signed(iact_1) * $signed(w_1);
+                mul_reg_2 <= $signed(iact_2) * $signed(w_2);
+                mul_reg_3 <= $signed(iact_3) * $signed(w_3);
+                mul_reg_4 <= $signed(iact_4) * $signed(w_4);
+                mul_reg_5 <= $signed(iact_5) * $signed(w_5);
+                mul_reg_6 <= $signed(iact_6) * $signed(w_6);
+                mul_reg_7 <= $signed(iact_7) * $signed(w_7);
+            end
+
+            // -------------------------
+            // Stage 1: adder tree level 1
+            // -------------------------
+            add1_valid <= mul_valid;
+
+            if (mul_valid) begin
+                add1_reg_0 <= mul_reg_0 + mul_reg_1;
+                add1_reg_1 <= mul_reg_2 + mul_reg_3;
+                add1_reg_2 <= mul_reg_4 + mul_reg_5;
+                add1_reg_3 <= mul_reg_6 + mul_reg_7;
+            end
+
+            // -------------------------
+            // Stage 2: adder tree level 2
+            // -------------------------
+            add2_valid <= add1_valid;
+
+            if (add1_valid) begin
+                add2_reg_0 <= add1_reg_0 + add1_reg_1;
+                add2_reg_1 <= add1_reg_2 + add1_reg_3;
+            end
+
+            // -------------------------
+            // Stage 3: adder tree level 3
+            // -------------------------
+            sum_valid <= add2_valid;
+
+            if (add2_valid) begin
+                sum_tree_reg <= add2_reg_0 + add2_reg_1;
+            end
+
+            // -------------------------
+            // Stage 4: accumulator
+            // -------------------------
+            if (sum_valid) begin
+                acc_reg <= acc_reg + sum_tree_ext;
+            end
         end
     end
 
     // =========================================================
-    // 4. Activation / Quantization / Clamp
+    // 2. Activation / Quantization / Clamp
     // =========================================================
 
-    // relu_en = 1이면 음수 제거
-    // relu_en = 0이면 FC3이므로 음수 유지
     wire signed [BW_P-1:0] act_val =
         (relu_en && acc_reg[BW_P-1]) ? {BW_P{1'b0}} : acc_reg;
 
@@ -89,7 +159,7 @@ module fc_core #(
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
             fc_out <= 0;
-            valid_out <= 0;
+            valid_out <= 1'b0;
         end else begin
             if (end_node) begin
                 valid_out <= 1'b1;
@@ -115,8 +185,6 @@ module fc_core #(
                 end
             end else begin
                 valid_out <= 1'b0;
-
-                // fc_we가 한 박자 늦게 들어올 수 있으므로 출력값 유지
                 fc_out <= fc_out;
             end
         end
