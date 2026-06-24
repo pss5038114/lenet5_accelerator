@@ -1,0 +1,893 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_lenet5_top_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_lenet5_top" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="347,769.800 ns"></ZoomStartTime>
+      <ZoomEndTime time="347,933.401 ns"></ZoomEndTime>
+      <Cursor1Time time="347,975.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="155"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="56" />
+   <wave_markers>
+      <marker time="265585000" label="" />
+   </wave_markers>
+   <wvobject fp_name="group89" type="group">
+      <obj_property name="label">Scope: tb_lenet5_top</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="divider" fp_name="divider90">
+         <obj_property name="label">clock</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/reset_n" type="logic">
+         <obj_property name="ElementShortName">reset_n</obj_property>
+         <obj_property name="ObjectShortName">reset_n</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider86">
+         <obj_property name="label">start signal pulse</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/dma_done" type="logic">
+         <obj_property name="ElementShortName">dma_done</obj_property>
+         <obj_property name="ObjectShortName">dma_done</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider91">
+         <obj_property name="label">Current State</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/current_state" type="array">
+         <obj_property name="ElementShortName">current_state[2:0]</obj_property>
+         <obj_property name="ObjectShortName">current_state[2:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider93">
+         <obj_property name="label">Final Scores</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/final_scores" type="array">
+         <obj_property name="ElementShortName">final_scores[0:9][7:0]</obj_property>
+         <obj_property name="ObjectShortName">final_scores[0:9][7:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider95">
+         <obj_property name="label">Predicted Class</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/predicted_class" type="array">
+         <obj_property name="ElementShortName">predicted_class[31:0]</obj_property>
+         <obj_property name="ObjectShortName">predicted_class[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group97" type="group">
+      <obj_property name="label">Scope: u_ctrl</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_ctrl/mode_select" type="array">
+         <obj_property name="ElementShortName">mode_select[1:0]</obj_property>
+         <obj_property name="ObjectShortName">mode_select[1:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_ctrl/stage_idx" type="array">
+         <obj_property name="ElementShortName">stage_idx[2:0]</obj_property>
+         <obj_property name="ObjectShortName">stage_idx[2:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group100" type="group">
+      <obj_property name="label">Scope: u_pe_array</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/opcode" type="array">
+         <obj_property name="ElementShortName">opcode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/iact_in_master" type="array">
+         <obj_property name="ElementShortName">iact_in_master[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in_master[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FF7F</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/master_valid_in" type="logic">
+         <obj_property name="ElementShortName">master_valid_in</obj_property>
+         <obj_property name="ObjectShortName">master_valid_in</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider287">
+         <obj_property name="label">column 0</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[0].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[0].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_0" type="array">
+         <obj_property name="ElementShortName">top_in_0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">top_in_0[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_0" type="array">
+         <obj_property name="ElementShortName">bottom_out_0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bottom_out_0[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFD700</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/valid_out_0" type="logic">
+         <obj_property name="ElementShortName">valid_out_0</obj_property>
+         <obj_property name="ObjectShortName">valid_out_0</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[0].col_inst /\PE_ARRAY[0].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[0].col_inst /\PE_ARRAY[1].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[0].col_inst /\PE_ARRAY[2].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[0].col_inst /\PE_ARRAY[3].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[0].col_inst /\PE_ARRAY[4].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_0/quant_data" type="array">
+         <obj_property name="ElementShortName">quant_data[7:0]</obj_property>
+         <obj_property name="ObjectShortName">quant_data[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_0/quant_valid" type="logic">
+         <obj_property name="ElementShortName">quant_valid</obj_property>
+         <obj_property name="ObjectShortName">quant_valid</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider288">
+         <obj_property name="label">column 1</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[1].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[1].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_1" type="array">
+         <obj_property name="ElementShortName">top_in_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">top_in_1[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_1" type="array">
+         <obj_property name="ElementShortName">bottom_out_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bottom_out_1[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFD700</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/valid_out_1" type="logic">
+         <obj_property name="ElementShortName">valid_out_1</obj_property>
+         <obj_property name="ObjectShortName">valid_out_1</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[1].col_inst /\PE_ARRAY[0].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[1].col_inst /\PE_ARRAY[1].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[1].col_inst /\PE_ARRAY[2].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[1].col_inst /\PE_ARRAY[3].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[1].col_inst /\PE_ARRAY[4].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_1/quant_data" type="array">
+         <obj_property name="ElementShortName">quant_data[7:0]</obj_property>
+         <obj_property name="ObjectShortName">quant_data[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_1/quant_valid" type="logic">
+         <obj_property name="ElementShortName">quant_valid</obj_property>
+         <obj_property name="ObjectShortName">quant_valid</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider289">
+         <obj_property name="label">column 2</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[2].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[2].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_2" type="array">
+         <obj_property name="ElementShortName">top_in_2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">top_in_2[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_2" type="array">
+         <obj_property name="ElementShortName">bottom_out_2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bottom_out_2[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFD700</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/valid_out_2" type="logic">
+         <obj_property name="ElementShortName">valid_out_2</obj_property>
+         <obj_property name="ObjectShortName">valid_out_2</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[2].col_inst /\PE_ARRAY[0].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[2].col_inst /\PE_ARRAY[1].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[2].col_inst /\PE_ARRAY[2].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[2].col_inst /\PE_ARRAY[3].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[2].col_inst /\PE_ARRAY[4].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_2/quant_data" type="array">
+         <obj_property name="ElementShortName">quant_data[7:0]</obj_property>
+         <obj_property name="ObjectShortName">quant_data[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_2/quant_valid" type="logic">
+         <obj_property name="ElementShortName">quant_valid</obj_property>
+         <obj_property name="ObjectShortName">quant_valid</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider290">
+         <obj_property name="label">column 3</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[3].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[3].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_3" type="array">
+         <obj_property name="ElementShortName">top_in_3[31:0]</obj_property>
+         <obj_property name="ObjectShortName">top_in_3[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_3" type="array">
+         <obj_property name="ElementShortName">bottom_out_3[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bottom_out_3[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFD700</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/valid_out_3" type="logic">
+         <obj_property name="ElementShortName">valid_out_3</obj_property>
+         <obj_property name="ObjectShortName">valid_out_3</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[3].col_inst /\PE_ARRAY[0].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[3].col_inst /\PE_ARRAY[1].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[3].col_inst /\PE_ARRAY[2].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[3].col_inst /\PE_ARRAY[3].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[3].col_inst /\PE_ARRAY[4].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_3/quant_data" type="array">
+         <obj_property name="ElementShortName">quant_data[7:0]</obj_property>
+         <obj_property name="ObjectShortName">quant_data[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_3/quant_valid" type="logic">
+         <obj_property name="ElementShortName">quant_valid</obj_property>
+         <obj_property name="ObjectShortName">quant_valid</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider291">
+         <obj_property name="label">column 4</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[4].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[4].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_4" type="array">
+         <obj_property name="ElementShortName">top_in_4[31:0]</obj_property>
+         <obj_property name="ObjectShortName">top_in_4[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_4" type="array">
+         <obj_property name="ElementShortName">bottom_out_4[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bottom_out_4[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFD700</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/valid_out_4" type="logic">
+         <obj_property name="ElementShortName">valid_out_4</obj_property>
+         <obj_property name="ObjectShortName">valid_out_4</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[4].col_inst /\PE_ARRAY[0].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[4].col_inst /\PE_ARRAY[1].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[4].col_inst /\PE_ARRAY[2].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[4].col_inst /\PE_ARRAY[3].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[4].col_inst /\PE_ARRAY[4].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_4/quant_data" type="array">
+         <obj_property name="ElementShortName">quant_data[7:0]</obj_property>
+         <obj_property name="ObjectShortName">quant_data[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_4/quant_valid" type="logic">
+         <obj_property name="ElementShortName">quant_valid</obj_property>
+         <obj_property name="ObjectShortName">quant_valid</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider292">
+         <obj_property name="label">column 5</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[5].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[5].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_5" type="array">
+         <obj_property name="ElementShortName">top_in_5[31:0]</obj_property>
+         <obj_property name="ObjectShortName">top_in_5[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_5" type="array">
+         <obj_property name="ElementShortName">bottom_out_5[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bottom_out_5[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFD700</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/valid_out_5" type="logic">
+         <obj_property name="ElementShortName">valid_out_5</obj_property>
+         <obj_property name="ObjectShortName">valid_out_5</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[5].col_inst /\PE_ARRAY[0].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[5].col_inst /\PE_ARRAY[1].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[5].col_inst /\PE_ARRAY[2].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[5].col_inst /\PE_ARRAY[3].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[5].col_inst /\PE_ARRAY[4].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_5/quant_data" type="array">
+         <obj_property name="ElementShortName">quant_data[7:0]</obj_property>
+         <obj_property name="ObjectShortName">quant_data[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_5/quant_valid" type="logic">
+         <obj_property name="ElementShortName">quant_valid</obj_property>
+         <obj_property name="ObjectShortName">quant_valid</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider293">
+         <obj_property name="label">column 6</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[6].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[6].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_6" type="array">
+         <obj_property name="ElementShortName">top_in_6[31:0]</obj_property>
+         <obj_property name="ObjectShortName">top_in_6[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_6" type="array">
+         <obj_property name="ElementShortName">bottom_out_6[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bottom_out_6[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFD700</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/valid_out_6" type="logic">
+         <obj_property name="ElementShortName">valid_out_6</obj_property>
+         <obj_property name="ObjectShortName">valid_out_6</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[6].col_inst /\PE_ARRAY[0].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[6].col_inst /\PE_ARRAY[1].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[6].col_inst /\PE_ARRAY[2].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[6].col_inst /\PE_ARRAY[3].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[6].col_inst /\PE_ARRAY[4].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_6/quant_data" type="array">
+         <obj_property name="ElementShortName">quant_data[7:0]</obj_property>
+         <obj_property name="ObjectShortName">quant_data[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_6/quant_valid" type="logic">
+         <obj_property name="ElementShortName">quant_valid</obj_property>
+         <obj_property name="ObjectShortName">quant_valid</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider294">
+         <obj_property name="label">column 7</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[7].col_inst /valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[7].col_inst /iact_in" type="array">
+         <obj_property name="ElementShortName">iact_in[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_in[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/top_in_7" type="array">
+         <obj_property name="ElementShortName">top_in_7[31:0]</obj_property>
+         <obj_property name="ObjectShortName">top_in_7[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/bottom_out_7" type="array">
+         <obj_property name="ElementShortName">bottom_out_7[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bottom_out_7[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="CustomSignalColor">#FFD700</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/valid_out_7" type="logic">
+         <obj_property name="ElementShortName">valid_out_7</obj_property>
+         <obj_property name="ObjectShortName">valid_out_7</obj_property>
+         <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[7].col_inst /\PE_ARRAY[0].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[7].col_inst /\PE_ARRAY[1].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[7].col_inst /\PE_ARRAY[2].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[7].col_inst /\PE_ARRAY[3].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pe_array/\COL_ARRAY[7].col_inst /\PE_ARRAY[4].pe_inst /weight_reg" type="array">
+         <obj_property name="ElementShortName">weight_reg[7:0]</obj_property>
+         <obj_property name="ObjectShortName">weight_reg[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_7/quant_data" type="array">
+         <obj_property name="ElementShortName">quant_data[7:0]</obj_property>
+         <obj_property name="ObjectShortName">quant_data[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_pp_7/quant_valid" type="logic">
+         <obj_property name="ElementShortName">quant_valid</obj_property>
+         <obj_property name="ObjectShortName">quant_valid</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider2075">
+      <obj_property name="label">core</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="group104" type="group">
+      <obj_property name="label">Scope: u_fc_module/u_core</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_fc_module/u_core/start_node" type="logic">
+         <obj_property name="ElementShortName">start_node</obj_property>
+         <obj_property name="ObjectShortName">start_node</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_fc_module/u_core/valid_in" type="logic">
+         <obj_property name="ElementShortName">valid_in</obj_property>
+         <obj_property name="ObjectShortName">valid_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_fc_module/u_core/end_node" type="logic">
+         <obj_property name="ElementShortName">end_node</obj_property>
+         <obj_property name="ObjectShortName">end_node</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_fc_module/u_core/acc_reg" type="array">
+         <obj_property name="ElementShortName">acc_reg[31:0]</obj_property>
+         <obj_property name="ObjectShortName">acc_reg[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group391" type="group">
+      <obj_property name="label">Input Buffer</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_lenet5_top/uut/u_input_buf/iact_out" type="array">
+         <obj_property name="ElementShortName">iact_out[7:0]</obj_property>
+         <obj_property name="ObjectShortName">iact_out[7:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group414" type="group">
+      <obj_property name="label">Weight Buffer</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider84">
+      <obj_property name="label">uut.u_ctrl</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_ctrl/c_state" type="array">
+      <obj_property name="ElementShortName">c_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">c_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_ctrl/stage_cnt" type="array">
+      <obj_property name="ElementShortName">stage_cnt[2:0]</obj_property>
+      <obj_property name="ObjectShortName">stage_cnt[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_ctrl/ch_cnt" type="array">
+      <obj_property name="ElementShortName">ch_cnt[2:0]</obj_property>
+      <obj_property name="ObjectShortName">ch_cnt[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_ctrl/batch_cnt" type="array">
+      <obj_property name="ElementShortName">batch_cnt[1:0]</obj_property>
+      <obj_property name="ObjectShortName">batch_cnt[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider2327">
+      <obj_property name="label">FC Check</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FAAFBE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/current_state" type="array">
+      <obj_property name="ElementShortName">current_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">current_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_ctrl/f_state" type="array">
+      <obj_property name="ElementShortName">f_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">f_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_ctrl/node_cnt" type="array">
+      <obj_property name="ElementShortName">node_cnt[7:0]</obj_property>
+      <obj_property name="ObjectShortName">node_cnt[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/start_node" type="logic">
+      <obj_property name="ElementShortName">start_node</obj_property>
+      <obj_property name="ObjectShortName">start_node</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/valid_in" type="logic">
+      <obj_property name="ElementShortName">valid_in</obj_property>
+      <obj_property name="ObjectShortName">valid_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/end_node" type="logic">
+      <obj_property name="ElementShortName">end_node</obj_property>
+      <obj_property name="ObjectShortName">end_node</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider2334">
+      <obj_property name="label">FC Module</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FAAFBE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_fc_module/u_core/acc_reg" type="array">
+      <obj_property name="ElementShortName">acc_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">acc_reg[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_fc_module/u_core/valid_out" type="logic">
+      <obj_property name="ElementShortName">valid_out</obj_property>
+      <obj_property name="ObjectShortName">valid_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_we" type="array">
+      <obj_property name="ElementShortName">fc_we[7:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_we[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_din_0" type="array">
+      <obj_property name="ElementShortName">fc_din_0[7:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_din_0[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_din_1" type="array">
+      <obj_property name="ElementShortName">fc_din_1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_din_1[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_din_2" type="array">
+      <obj_property name="ElementShortName">fc_din_2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_din_2[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_din_3" type="array">
+      <obj_property name="ElementShortName">fc_din_3[7:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_din_3[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_din_4" type="array">
+      <obj_property name="ElementShortName">fc_din_4[7:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_din_4[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_din_5" type="array">
+      <obj_property name="ElementShortName">fc_din_5[7:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_din_5[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_din_6" type="array">
+      <obj_property name="ElementShortName">fc_din_6[7:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_din_6[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_din_7" type="array">
+      <obj_property name="ElementShortName">fc_din_7[7:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_din_7[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/out_idx" type="array">
+      <obj_property name="ElementShortName">out_idx[31:0]</obj_property>
+      <obj_property name="ObjectShortName">out_idx[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/final_scores" type="array">
+      <obj_property name="ElementShortName">final_scores[0:9][7:0]</obj_property>
+      <obj_property name="ObjectShortName">final_scores[0:9][7:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider353">
+      <obj_property name="label">MORE SIGNAL</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FAAFBE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_addr_r" type="array">
+      <obj_property name="ElementShortName">fc_addr_r[11:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_addr_r[11:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_addr_w" type="array">
+      <obj_property name="ElementShortName">fc_addr_w[11:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_addr_w[11:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/w_addr_r" type="array">
+      <obj_property name="ElementShortName">w_addr_r[12:0]</obj_property>
+      <obj_property name="ObjectShortName">w_addr_r[12:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/b_addr_r" type="array">
+      <obj_property name="ElementShortName">b_addr_r[7:0]</obj_property>
+      <obj_property name="ObjectShortName">b_addr_r[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/read_out_0" type="array">
+      <obj_property name="ElementShortName">read_out_0[7:0]</obj_property>
+      <obj_property name="ObjectShortName">read_out_0[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/read_out_1" type="array">
+      <obj_property name="ElementShortName">read_out_1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">read_out_1[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/read_out_2" type="array">
+      <obj_property name="ElementShortName">read_out_2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">read_out_2[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/read_out_3" type="array">
+      <obj_property name="ElementShortName">read_out_3[7:0]</obj_property>
+      <obj_property name="ObjectShortName">read_out_3[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/read_out_4" type="array">
+      <obj_property name="ElementShortName">read_out_4[7:0]</obj_property>
+      <obj_property name="ObjectShortName">read_out_4[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/read_out_5" type="array">
+      <obj_property name="ElementShortName">read_out_5[7:0]</obj_property>
+      <obj_property name="ObjectShortName">read_out_5[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/read_out_6" type="array">
+      <obj_property name="ElementShortName">read_out_6[7:0]</obj_property>
+      <obj_property name="ObjectShortName">read_out_6[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/read_out_7" type="array">
+      <obj_property name="ElementShortName">read_out_7[7:0]</obj_property>
+      <obj_property name="ObjectShortName">read_out_7[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/w_dout_0" type="array">
+      <obj_property name="ElementShortName">w_dout_0[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_dout_0[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/w_dout_1" type="array">
+      <obj_property name="ElementShortName">w_dout_1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_dout_1[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/w_dout_2" type="array">
+      <obj_property name="ElementShortName">w_dout_2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_dout_2[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/w_dout_3" type="array">
+      <obj_property name="ElementShortName">w_dout_3[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_dout_3[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/w_dout_4" type="array">
+      <obj_property name="ElementShortName">w_dout_4[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_dout_4[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/w_dout_5" type="array">
+      <obj_property name="ElementShortName">w_dout_5[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_dout_5[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/w_dout_6" type="array">
+      <obj_property name="ElementShortName">w_dout_6[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_dout_6[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/w_dout_7" type="array">
+      <obj_property name="ElementShortName">w_dout_7[7:0]</obj_property>
+      <obj_property name="ObjectShortName">w_dout_7[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/fc_selected_bias" type="array">
+      <obj_property name="ElementShortName">fc_selected_bias[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fc_selected_bias[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_lenet5_top/uut/u_fc_module/u_core/sum_tree" type="array">
+      <obj_property name="ElementShortName">sum_tree[18:0]</obj_property>
+      <obj_property name="ObjectShortName">sum_tree[18:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>
