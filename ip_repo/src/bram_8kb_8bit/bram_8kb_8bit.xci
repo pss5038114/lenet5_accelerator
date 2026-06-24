@@ -2,9 +2,10 @@
   "schema": "xilinx.com:schema:json_instance:1.0",
   "ip_inst": {
     "xci_name": "bram_8kb_8bit",
+    "cell_name": "u_stream_wrapper/u_core/u_weight_bram/bank0",
     "component_reference": "xilinx.com:ip:blk_mem_gen:8.4",
     "ip_revision": "12",
-    "gen_directory": "../../tmp_edit_project.gen/sources_1/ip/bram_8kb_8bit",
+    "gen_directory": "../../../lenet5_accelerator.tmp/lenet5_axi_wrapper_v1_0_project/lenet5_axi_wrapper_v1_0_project.gen/sources_1/ip/bram_8kb_8bit",
     "parameters": {
       "component_parameters": {
         "Component_Name": [ { "value": "bram_8kb_8bit", "resolve_type": "user", "usage": "all" } ],
@@ -174,7 +175,7 @@
         "IPCONTEXT": [ { "value": "IP_Flow" } ],
         "IPREVISION": [ { "value": "12" } ],
         "MANAGED": [ { "value": "TRUE" } ],
-        "OUTPUTDIR": [ { "value": "../../tmp_edit_project.gen/sources_1/ip/bram_8kb_8bit" } ],
+        "OUTPUTDIR": [ { "value": "../../../lenet5_accelerator.tmp/lenet5_axi_wrapper_v1_0_project/lenet5_axi_wrapper_v1_0_project.gen/sources_1/ip/bram_8kb_8bit" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
         "SHAREDDIR": [ { "value": "." } ],
         "SWVERSION": [ { "value": "2025.2" } ],
@@ -274,5 +275,5 @@
       }
     }
   },
-  "checksum": "d6515941"
+  "checksum": "de737d45"
 }

@@ -1982,7 +1982,7 @@
       },
       "lenet5_axi_wrapper_0": {
         "vlnv": "xilinx.com:user:lenet5_axi_wrapper:1.0",
-        "ip_revision": "2",
+        "ip_revision": "3",
         "xci_name": "design_1_lenet5_axi_wrapper_0_0",
         "xci_path": "ip\\design_1_lenet5_axi_wrapper_0_0\\design_1_lenet5_axi_wrapper_0_0.xci",
         "inst_hier_path": "lenet5_axi_wrapper_0",
@@ -2477,12 +2477,12 @@
           "axi_smc/aclk",
           "axi_dma_0/s_axi_lite_aclk",
           "rst_ps7_0_100M/slowest_sync_clk",
-          "lenet5_axi_wrapper_0/s_axi_aclk",
           "axi_dma_0/m_axi_mm2s_aclk",
           "axi_mem_intercon/S00_ACLK",
           "processing_system7_0/S_AXI_HP0_ACLK",
           "axi_mem_intercon/M00_ACLK",
-          "axi_mem_intercon/ACLK"
+          "axi_mem_intercon/ACLK",
+          "lenet5_axi_wrapper_0/s_axi_aclk"
         ]
       },
       "processing_system7_0_FCLK_RESET0_N": {
@@ -2496,10 +2496,10 @@
           "rst_ps7_0_100M/peripheral_aresetn",
           "axi_dma_0/axi_resetn",
           "axi_smc/aresetn",
-          "lenet5_axi_wrapper_0/s_axi_aresetn",
           "axi_mem_intercon/S00_ARESETN",
           "axi_mem_intercon/M00_ARESETN",
-          "axi_mem_intercon/ARESETN"
+          "axi_mem_intercon/ARESETN",
+          "lenet5_axi_wrapper_0/s_axi_aresetn"
         ]
       }
     },

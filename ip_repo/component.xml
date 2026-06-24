@@ -321,7 +321,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>82f55fe5</spirit:value>
+            <spirit:value>4a340194</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -340,7 +340,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>a13bc435</spirit:value>
+            <spirit:value>87670cb8</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -864,11 +864,6 @@
     <spirit:fileSet>
       <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>src/lenet5_core.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>src/bram_4kb_8bit/bram_4kb_8bit.xci</spirit:name>
         <spirit:userFileType>xci</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
@@ -996,6 +991,11 @@
         <spirit:name>src/lenet5_axi_wrapper.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_90eca834</spirit:userFileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/lenet5_core.xdc</spirit:name>
+        <spirit:userFileType>xdc</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -1244,14 +1244,14 @@
       <xilinx:xpmLibraries>
         <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>2</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2026-06-24T12:08:28Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>3</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2026-06-24T13:11:34Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2025.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="c3656fb3"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="a13b2e93"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="4896f96e"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="27791e78"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="368e4e6d"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="7a99bd95"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="a19b1f86"/>

@@ -48,11 +48,11 @@
 
 
 // IP VLNV: xilinx.com:user:lenet5_axi_wrapper:1.0
-// IP Revision: 2
+// IP Revision: 3
 
 (* X_CORE_INFO = "lenet5_axi_wrapper,Vivado 2025.2" *)
 (* CHECK_LICENSE_TYPE = "design_1_lenet5_axi_wrapper_0_0,lenet5_axi_wrapper,{}" *)
-(* CORE_GENERATION_INFO = "design_1_lenet5_axi_wrapper_0_0,lenet5_axi_wrapper,{x_ipProduct=Vivado 2025.2,x_ipVendor=xilinx.com,x_ipLibrary=user,x_ipName=lenet5_axi_wrapper,x_ipVersion=1.0,x_ipCoreRevision=2,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,BW_A=8,BW_W=8,BW_P=32,C_S_AXI_DATA_WIDTH=32,C_S_AXI_ADDR_WIDTH=8,C_S_AXIS_TDATA_WIDTH=32}" *)
+(* CORE_GENERATION_INFO = "design_1_lenet5_axi_wrapper_0_0,lenet5_axi_wrapper,{x_ipProduct=Vivado 2025.2,x_ipVendor=xilinx.com,x_ipLibrary=user,x_ipName=lenet5_axi_wrapper,x_ipVersion=1.0,x_ipCoreRevision=3,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,BW_A=8,BW_W=8,BW_P=32,C_S_AXI_DATA_WIDTH=32,C_S_AXI_ADDR_WIDTH=8,C_S_AXIS_TDATA_WIDTH=32}" *)
 (* IP_DEFINITION_SOURCE = "package_project" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module design_1_lenet5_axi_wrapper_0_0 (
