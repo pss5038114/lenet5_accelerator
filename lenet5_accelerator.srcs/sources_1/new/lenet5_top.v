@@ -38,7 +38,24 @@ module lenet5_top #(
     input wire [7:0] dma_b_we,
     input wire [7:0] dma_b_addr_w,
     input wire [BW_P-1:0] dma_b_din_0, dma_b_din_1, dma_b_din_2, dma_b_din_3,
-    input wire [BW_P-1:0] dma_b_din_4, dma_b_din_5, dma_b_din_6, dma_b_din_7
+    input wire [BW_P-1:0] dma_b_din_4, dma_b_din_5, dma_b_din_6, dma_b_din_7,
+
+    // ==========================================
+    // Inference Result
+    // ==========================================
+    output reg result_valid,
+    output reg [3:0] predicted_class,
+
+    output reg signed [BW_A-1:0] score_0,
+    output reg signed [BW_A-1:0] score_1,
+    output reg signed [BW_A-1:0] score_2,
+    output reg signed [BW_A-1:0] score_3,
+    output reg signed [BW_A-1:0] score_4,
+    output reg signed [BW_A-1:0] score_5,
+    output reg signed [BW_A-1:0] score_6,
+    output reg signed [BW_A-1:0] score_7,
+    output reg signed [BW_A-1:0] score_8,
+    output reg signed [BW_A-1:0] score_9
 );
 
     // =========================================================
@@ -469,6 +486,85 @@ module lenet5_top #(
         .fc_din_0(fc_din_0), .fc_din_1(fc_din_1), .fc_din_2(fc_din_2), .fc_din_3(fc_din_3),
         .fc_din_4(fc_din_4), .fc_din_5(fc_din_5), .fc_din_6(fc_din_6), .fc_din_7(fc_din_7)
     );
+    
+    // =========================================================
+    // FC3 result capture
+    //
+    // Testbench에서는 uut.fc_we / uut.fc_din_0을 직접 보고
+    // final_scores를 만들었지만, 실제 FPGA에서는 PS가 내부 신호를 볼 수 없다.
+    //
+    // 따라서 FC3에서 나오는 10개 class score를 top-level register에 저장하고,
+    // predicted_class와 result_valid를 외부로 내보낸다.
+    // =========================================================
+
+    reg [3:0] result_idx;
+    reg signed [BW_A-1:0] max_score_reg;
+
+    wire fc3_score_fire =
+        (current_state == 3'd5) &&       // FC3
+        (fc_we != 8'd0) &&
+        (!result_valid);
+
+    wire signed [BW_A-1:0] fc3_score =
+        $signed(fc_din_0);
+
+    wire fc3_score_is_new_max =
+        (result_idx == 4'd0) ||
+        (fc3_score > max_score_reg);
+
+    wire inference_start =
+        (current_state == 3'd0) && dma_done;  // IDLE에서 새 추론 시작
+
+    always @(posedge clk or negedge reset_n) begin
+        if (!reset_n) begin
+            result_valid    <= 1'b0;
+            predicted_class <= 4'd0;
+            result_idx      <= 4'd0;
+            max_score_reg   <= -8'sd128;
+
+            score_0 <= 0; score_1 <= 0; score_2 <= 0; score_3 <= 0; score_4 <= 0;
+            score_5 <= 0; score_6 <= 0; score_7 <= 0; score_8 <= 0; score_9 <= 0;
+        end else begin
+            // 새 이미지/추론이 시작되면 이전 결과 삭제
+            if (inference_start) begin
+                result_valid    <= 1'b0;
+                predicted_class <= 4'd0;
+                result_idx      <= 4'd0;
+                max_score_reg   <= -8'sd128;
+
+                score_0 <= 0; score_1 <= 0; score_2 <= 0; score_3 <= 0; score_4 <= 0;
+                score_5 <= 0; score_6 <= 0; score_7 <= 0; score_8 <= 0; score_9 <= 0;
+            end
+
+            // FC3 class score 10개 캡처
+            else if (fc3_score_fire) begin
+                case (result_idx)
+                    4'd0: score_0 <= fc3_score;
+                    4'd1: score_1 <= fc3_score;
+                    4'd2: score_2 <= fc3_score;
+                    4'd3: score_3 <= fc3_score;
+                    4'd4: score_4 <= fc3_score;
+                    4'd5: score_5 <= fc3_score;
+                    4'd6: score_6 <= fc3_score;
+                    4'd7: score_7 <= fc3_score;
+                    4'd8: score_8 <= fc3_score;
+                    4'd9: score_9 <= fc3_score;
+                    default: ;
+                endcase
+
+                if (fc3_score_is_new_max) begin
+                    max_score_reg   <= fc3_score;
+                    predicted_class <= result_idx;
+                end
+
+                if (result_idx == 4'd9) begin
+                    result_valid <= 1'b1;
+                end else begin
+                    result_idx <= result_idx + 4'd1;
+                end
+            end
+        end
+    end
 
     // =========================================================
     // 5. CONV path
