@@ -4,7 +4,7 @@
     "xci_name": "design_1_lenet5_axi_wrapper_0_0",
     "cell_name": "lenet5_axi_wrapper_0",
     "component_reference": "xilinx.com:user:lenet5_axi_wrapper:1.0",
-    "ip_revision": "3",
+    "ip_revision": "4",
     "gen_directory": "../../../../../../lenet5_accelerator.gen/sources_1/bd/design_1/ip/design_1_lenet5_axi_wrapper_0_0",
     "parameters": {
       "component_parameters": {
@@ -39,7 +39,7 @@
       },
       "runtime_parameters": {
         "IPCONTEXT": [ { "value": "IP_Integrator" } ],
-        "IPREVISION": [ { "value": "3" } ],
+        "IPREVISION": [ { "value": "4" } ],
         "MANAGED": [ { "value": "TRUE" } ],
         "OUTPUTDIR": [ { "value": "../../../../../../lenet5_accelerator.gen/sources_1/bd/design_1/ip/design_1_lenet5_axi_wrapper_0_0" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
@@ -224,5 +224,5 @@
       }
     }
   },
-  "checksum": "9ce6300e"
+  "checksum": "40677875"
 }

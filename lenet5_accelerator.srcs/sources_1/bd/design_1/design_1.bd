@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xCC6CFA53F622E079",
+      "boundary_crc": "0xCC6CFA53B4580162",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../lenet5_accelerator.gen/sources_1/bd/design_1",
       "name": "design_1",
@@ -1982,7 +1982,7 @@
       },
       "lenet5_axi_wrapper_0": {
         "vlnv": "xilinx.com:user:lenet5_axi_wrapper:1.0",
-        "ip_revision": "3",
+        "ip_revision": "4",
         "xci_name": "design_1_lenet5_axi_wrapper_0_0",
         "xci_path": "ip\\design_1_lenet5_axi_wrapper_0_0\\design_1_lenet5_axi_wrapper_0_0.xci",
         "inst_hier_path": "lenet5_axi_wrapper_0",
