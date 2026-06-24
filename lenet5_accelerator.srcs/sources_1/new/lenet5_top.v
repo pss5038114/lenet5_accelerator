@@ -136,6 +136,13 @@ module lenet5_top #(
     reg [11:0] fc_addr_r;
     reg [11:0] fc_addr_w;
     reg [2:0]  fc_write_phase;
+    reg [7:0] fc_acc_phase;
+
+    wire [7:0] fc_target_acc =
+        (current_state == 3'd3) ? 8'd50 :   // FC1
+        (current_state == 3'd4) ? 8'd15 :   // FC2
+        (current_state == 3'd5) ? 8'd11 :   // FC3
+                                  8'd0;
 
     wire fc_write_fire = (mode_select == 2'd2) && (fc_we != 8'd0);
 
@@ -174,12 +181,25 @@ module lenet5_top #(
         (mode_select == 2'd2) &&
         (current_state != prev_fc_state);
 
-    // FC address control
+        // FC address control
+    //
+    // FC BRAM/UBRAM read는 1클럭 latency가 있으므로,
+    // valid_in에서 실제로 MAC에 쓰일 데이터보다 주소를 1클럭 먼저 움직인다.
+    //
+    // start_node:
+    //   acc_reg는 bias로 초기화되고,
+    //   이미 준비된 addr0/weight0이 다음 valid cycle 0에서 쓰인다.
+    //   동시에 addr1/weight1을 미리 요청한다.
+    //
+    // valid_in:
+    //   현재 준비된 데이터를 MAC에 사용하면서,
+    //   다음 cycle 데이터를 미리 요청한다.
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
             fc_addr_r      <= 12'd0;
             fc_addr_w      <= 12'd0;
             fc_write_phase <= 3'd0;
+            fc_acc_phase   <= 8'd0;
         end else begin
             if (mode_select == 2'd2) begin
 
@@ -187,12 +207,33 @@ module lenet5_top #(
                 if (fc_layer_changed) begin
                     fc_addr_w      <= 12'd0;
                     fc_write_phase <= 3'd0;
+                    fc_acc_phase   <= 8'd0;
+                    fc_addr_r      <= 12'd0;
                 end
 
-                if (start_node)
-                    fc_addr_r <= 12'd0;
-                else if (valid_in)
-                    fc_addr_r <= fc_addr_r + 12'd1;
+                // 새 node 시작:
+                // addr0은 이미 BRAM dout에 준비되어 있어야 하고,
+                // start_node 클럭에서 다음 cycle용 addr1을 미리 요청한다.
+                if (start_node) begin
+                    fc_addr_r    <= 12'd1;
+                    fc_acc_phase <= 8'd0;
+                end
+
+                // MAC 진행 중:
+                // 마지막 valid cycle에서는 더 이상 다음 주소를 요청할 필요가 없다.
+                else if (valid_in) begin
+                    if (fc_acc_phase < fc_target_acc - 1) begin
+                        fc_addr_r <= fc_addr_r + 12'd1;
+                    end
+                    fc_acc_phase <= fc_acc_phase + 8'd1;
+                end
+
+                // node가 끝나면 다음 node의 input addr0을 미리 걸어둔다.
+                // drain state 동안 BRAM이 addr0을 준비할 시간을 확보한다.
+                else if (end_node) begin
+                    fc_addr_r    <= 12'd0;
+                    fc_acc_phase <= 8'd0;
+                end
 
                 if (!fc_layer_changed && fc_write_fire) begin
                     if (fc_write_phase == 3'd7) begin
@@ -206,6 +247,7 @@ module lenet5_top #(
                 fc_addr_r      <= 12'd0;
                 fc_addr_w      <= 12'd0;
                 fc_write_phase <= 3'd0;
+                fc_acc_phase   <= 8'd0;
             end
         end
     end
@@ -315,9 +357,19 @@ module lenet5_top #(
 
                 if (next_batch)
                     b_addr_r <= b_addr_r + 8'd1;
-            end else if (mode_select == 2'd2) begin
-                if (valid_in)
+                        end else if (mode_select == 2'd2) begin
+                // FC weight BRAM도 1클럭 latency가 있으므로
+                // start_node에서 다음 cycle용 weight를 미리 요청한다.
+                //
+                // 한 node당 정확히 target_acc번만 address를 증가시켜야 하므로:
+                //   start_node에서 1번
+                //   valid_in 중 마지막 cycle 직전까지 target_acc-1번
+                // 총 target_acc번 증가한다.
+                if (start_node) begin
                     w_addr_r <= w_addr_r + 13'd1;
+                end else if (valid_in && (fc_acc_phase < fc_target_acc - 1)) begin
+                    w_addr_r <= w_addr_r + 13'd1;
+                end
 
                 if (end_node)
                     b_addr_r <= b_addr_r + 8'd1;
