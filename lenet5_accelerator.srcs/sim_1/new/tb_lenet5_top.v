@@ -27,6 +27,20 @@ module tb_lenet5_top();
     reg [7:0] mem_image [0:8191];     // 1024 * 8
     reg [7:0] mem_weight [0:61559];   // 7695 * 8
     reg [31:0] mem_bias [0:1735];     // 217 * 8  
+    
+    wire hw_result_valid;
+    wire [3:0] hw_predicted_class;
+
+    wire signed [7:0] hw_score_0;
+    wire signed [7:0] hw_score_1;
+    wire signed [7:0] hw_score_2;
+    wire signed [7:0] hw_score_3;
+    wire signed [7:0] hw_score_4;
+    wire signed [7:0] hw_score_5;
+    wire signed [7:0] hw_score_6;
+    wire signed [7:0] hw_score_7;
+    wire signed [7:0] hw_score_8;
+    wire signed [7:0] hw_score_9;
 
     lenet5_top uut (
         .clk(clk), .reset_n(reset_n),
@@ -42,7 +56,21 @@ module tb_lenet5_top();
         
         .dma_b_we(dma_b_we), .dma_b_addr_w(dma_b_addr_w),
         .dma_b_din_0(dma_b_din_0), .dma_b_din_1(dma_b_din_1), .dma_b_din_2(dma_b_din_2), .dma_b_din_3(dma_b_din_3),
-        .dma_b_din_4(dma_b_din_4), .dma_b_din_5(dma_b_din_5), .dma_b_din_6(dma_b_din_6), .dma_b_din_7(dma_b_din_7)
+        .dma_b_din_4(dma_b_din_4), .dma_b_din_5(dma_b_din_5), .dma_b_din_6(dma_b_din_6), .dma_b_din_7(dma_b_din_7),
+
+        .result_valid(hw_result_valid),
+        .predicted_class(hw_predicted_class),
+
+        .score_0(hw_score_0),
+        .score_1(hw_score_1),
+        .score_2(hw_score_2),
+        .score_3(hw_score_3),
+        .score_4(hw_score_4),
+        .score_5(hw_score_5),
+        .score_6(hw_score_6),
+        .score_7(hw_score_7),
+        .score_8(hw_score_8),
+        .score_9(hw_score_9)
     );
 
     always #5 clk = ~clk; 
@@ -118,14 +146,15 @@ module tb_lenet5_top();
         $display("============================================");
         #50 dma_done = 1; #10 dma_done = 0;
 
-        wait(current_state == 3'd6);
-        
+        wait(hw_result_valid == 1'b1);
+
         $display("============================================");
         $display("[%0t] [NPU] Inference Complete! Evaluating Scores...", $time);
-        
-        max_score = -128; 
+
+        $display("----- Old TB capture -----");
+        max_score = -128;
         predicted_class = 0;
-        
+
         for (i = 0; i < 10; i = i + 1) begin
             $display("   - Class %0d Score: %0d", i, $signed(final_scores[i]));
             if ($signed(final_scores[i]) > max_score) begin
@@ -133,9 +162,24 @@ module tb_lenet5_top();
                 predicted_class = i;
             end
         end
-        
+
+        $display("----- New top-level result output -----");
+        $display("   - result_valid    : %0d", hw_result_valid);
+        $display("   - predicted_class : %0d", hw_predicted_class);
+        $display("   - Class 0 Score   : %0d", hw_score_0);
+        $display("   - Class 1 Score   : %0d", hw_score_1);
+        $display("   - Class 2 Score   : %0d", hw_score_2);
+        $display("   - Class 3 Score   : %0d", hw_score_3);
+        $display("   - Class 4 Score   : %0d", hw_score_4);
+        $display("   - Class 5 Score   : %0d", hw_score_5);
+        $display("   - Class 6 Score   : %0d", hw_score_6);
+        $display("   - Class 7 Score   : %0d", hw_score_7);
+        $display("   - Class 8 Score   : %0d", hw_score_8);
+        $display("   - Class 9 Score   : %0d", hw_score_9);
+
         $display("============================================");
-        $display("🎯 [HARDWARE NPU PREDICTION] : Winner Class is '%0d' !!!", predicted_class);
+        $display("🎯 [OLD TB PREDICTION]       : Winner Class is '%0d'", predicted_class);
+        $display("🎯 [TOP RESULT PREDICTION]   : Winner Class is '%0d'", hw_predicted_class);
         $display("============================================");
         
         #100 $finish;
